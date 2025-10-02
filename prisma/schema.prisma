@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  avatar    String
+  idade     Int
+  email     String   @unique // Adicionado: Garante que o e-mail seja único
+  senha     String
+  apelido   String?
+  consulta  Consulta[]
+}
+model Consulta {
+  id      Int   @id @default(autoincrement())
+  horario DateTime
+  data    DateTime
+  flag    String?
+  chat    Chat?
+  usuario Usuario[]
+}
+model Chat {
+  id      Int   @id @default(autoincrement())
+  data_do_chat DateTime
+  hora_do_chat DateTime
+  consulta     Consulta @relation(fields: [consulta_id], references: [id])
+  consulta_id  Int @unique
+  mensagens    Mensagem[]
+}
+model Mensagem {
+  id      Int   @id @default(autoincrement())
+  caracteres String
+  data_envio DateTime
+  chat_id    Int
+  chat       Chat @relation(fields: [chat_id], references: [id])
+}
