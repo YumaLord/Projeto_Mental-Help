@@ -1,0 +1,164 @@
+/* Configuração fonte */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #1a1a1a;
+    margin: 0;
+}
+
+.chat-principal {
+    display: flex;
+    justify-content: flex-start;
+    align-items: stretch;
+    min-height: 100vh;
+    padding: 0;
+}
+.chat-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: #2e2e2e; 
+    border-radius: 0;
+    overflow: hidden;
+    box-shadow: none;
+}
+/* CABEÇALHO */
+.chat-cabecalho {
+    display: flex;
+    align-items: center; /* Alinhamento vertical central */
+    padding: 15px 20px;
+    background-color: #3b3b3b;
+    color: white;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* ÍCONE VOLTAR */
+.link-voltar {
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+}
+.link-voltar:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+.icone-voltar {
+    width: 30px;
+    height: 30px;
+}
+.icone-perfil {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.chat-titulo {
+    font-size: 1.2rem;
+    margin-right: 10px;
+    white-space: nowrap;
+}
+/* GRUPO LOGO + TÍTULO CENTRALIZADO */
+.grupo-central-topo {
+    flex-grow: 1; 
+    text-align: center; 
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start; 
+    padding-top: 5px; 
+}
+.logo-mentalhelp {
+    width: 50px; 
+    height: 50px;
+    margin-bottom: 2px;
+}
+.grupo-central-topo h1 {
+    margin: 0;
+    font-size: 1.2rem;
+    line-height: 1; 
+}
+/* ÁREA DE MENSAGENS */
+.area-mensagens {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto; 
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.area-mensagens::-webkit-scrollbar {
+    width: 8px;
+}
+.area-mensagens::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 4px;
+}
+/* ESTILO DAS BOLHAS DE MENSAGEM */
+.bolha-mensagem {
+    max-width: 75%;
+    padding: 10px 15px;
+    border-radius: 15px;
+    line-height: 1.4;
+    color: #1a1a1a;
+    word-wrap: break-word;
+    font-size: 0.95rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+.recebida {
+    background-color: #D9D9D9; 
+    align-self: flex-start; 
+    border-bottom-left-radius: 5px; 
+}
+.enviada {
+    background-color: #FFC107; 
+    align-self: flex-end; 
+    border-bottom-right-radius: 5px; 
+}
+/* ÁREA DE DIGITAÇÃO */
+.area-input {
+    display: flex;
+    padding: 15px 20px;
+    background-color: #3b3b3b; 
+    border-top: 1px solid #555;
+}
+#input-mensagem {
+    flex-grow: 1;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 25px;
+    margin-right: 10px;
+    background-color: #4b4b4b; 
+    color: white;
+    outline: none;
+    font-size: 1rem;
+    transition: box-shadow 0.2s;
+}
+#input-mensagem:focus {
+    box-shadow: 0 0 0 2px #007bff;
+}
+#botao-enviar {
+    background-color: #007bff;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+#botao-enviar:hover {
+    background-color: #0056b3;
+}
+#botao-enviar:active {
+    transform: scale(0.95);
+}

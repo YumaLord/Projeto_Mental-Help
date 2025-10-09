@@ -1,0 +1,79 @@
+* {
+            
+    margin: none;
+    padding: 0;
+    box-sizing: border-box;
+    }
+body {
+    display: grid;
+    grid-template-columns: 0;
+    grid-template-rows: 70px 1fr;
+    grid-template-areas:
+    "aside header" 
+    "aside conteudo"
+    ;
+    height: 100vh;
+    margin: 0;
+}
+header {
+    grid-area: header;
+    background-color: rgb(44, 49, 47);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 4rem;
+    color: rgb(228, 239, 248);
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 100%;
+    width: 100%;
+}
+main {
+    grid-area: conteudo;
+    font-size: 3rem;
+    background-image: url(https://scontent-gru2-1.xx.fbcdn.net/v/t1.15752-9/550579767_1167104428812876_8427114708209099272_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=gkmHI2IDnz4Q7kNvwGtVjAs&_nc_oc=AdkyZMY7GJweaRn7CHBml7IaJt_F7Hf9tlRHRclNC1cvSBQlZ_cHo4GfBhHQLDTqQWo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-gru2-1.xx&oh=03_Q7cD3QHJvFxKkkALwOjpbfbjaoBjLCFiWDuqOc3JKOw2gNGExg&oe=68F3A5E5);
+    background-size: cover;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: rgb(228, 239, 248);
+}
+aside {
+    grid-area: aside;
+    display: flex;
+    background-color: brown;
+    background-size: auto;
+
+}
+.pagamento {
+    display: flex;
+    justify-content: center;
+    background-size: cover;
+    border: none;
+    padding: 1%;
+    width: 30%;
+    height: 30%;
+    gap: 0px; /*da espaco entre as imagens*/
+}
+.pagamento:hover {
+    width: 33%;
+    height: 33%;
+}
+.texto {
+    flex-direction: column;
+    display: flex;
+    text-align: center;
+    font-size: 3rem;
+}
+.voltar {
+    height: 70px;
+    width: 70px;
+    transition: 0.5s;
+    padding: 10%;
+}
+.voltar:hover {
+    padding: 0%;
+}

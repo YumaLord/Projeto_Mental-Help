@@ -1,0 +1,115 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 0px 1fr;
+    grid-template-rows: 60px;
+    grid-template-areas:
+        "aside header" 
+        "aside conteudo";
+    height: 100vh;
+}
+
+header {
+    grid-area: header;
+    background-color: rgb(44, 49, 47);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 2rem; 
+    color: rgb(228, 239, 248);
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 80px;   
+    width: 100%;
+}
+
+aside {
+    grid-area: aside;
+    top: 15px;
+    left: 15px;
+}
+
+main {
+    grid-area: conteudo;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url(https://scontent-gru2-1.xx.fbcdn.net/v/t1.15752-9/550579767_1167104428812876_8427114708209099272_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=gkmHI2IDnz4Q7kNvwGtVjAs&_nc_oc=AdkyZMY7GJweaRn7CHBml7IaJt_F7Hf9tlRHRclNC1cvSBQlZ_cHo4GfBhHQLDTqQWo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-gru2-1.xx&oh=03_Q7cD3QHJvFxKkkALwOjpbfbjaoBjLCFiWDuqOc3JKOw2gNGExg&oe=68F3A5E5);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+
+
+
+
+
+.voltar {
+    height: 50px;
+    width: 50px;
+    transition: 0.3s;
+}
+.voltar:hover {
+    transform: scale(1.1);
+}
+
+.conteudo-centralizado {
+    width: 400px;
+    background-color: #3b3b3b;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.conteudo-centralizado label {
+    margin-bottom: 5px;
+}
+.conteudo-centralizado input {
+    padding: 8px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+
+.lista {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #d9d9d9;
+    color: black;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.icone {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 3px solid black;
+}
+.amarelo {
+    background-color: #f5e663;
+}
+.vermelho {
+    background-color: #b43f3f;
+}
+.laranja {
+    background-color: #d97b2a;
+}

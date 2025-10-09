@@ -1,0 +1,71 @@
+* {
+    
+    margin: none;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+body {
+    display: grid;
+    grid-template-columns: 0;
+    grid-template-rows: 70px 1fr;
+    grid-template-areas:
+    "aside header" 
+    "aside conteudo"
+    ;
+    height: 100vh;
+    margin: 0;
+}
+header {
+    grid-area: header;
+    background-color: rgb(44, 49, 47);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 4rem;
+    color: rgb(228, 239, 248);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+main {
+    grid-area: conteudo;
+    flex-direction: column;
+    font-size: 3rem;
+    background-image: url(https://scontent-gru2-1.xx.fbcdn.net/v/t1.15752-9/550579767_1167104428812876_8427114708209099272_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=gkmHI2IDnz4Q7kNvwGtVjAs&_nc_oc=AdkyZMY7GJweaRn7CHBml7IaJt_F7Hf9tlRHRclNC1cvSBQlZ_cHo4GfBhHQLDTqQWo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-gru2-1.xx&oh=03_Q7cD3QHJvFxKkkALwOjpbfbjaoBjLCFiWDuqOc3JKOw2gNGExg&oe=68F3A5E5);
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: rgb(228, 239, 248);
+}
+aside {
+    grid-area: aside;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: brown;
+    background-size: cover;
+}
+.botao {
+    display: inline-block;
+    padding: 13px 50px;
+    background: rgb(77, 72, 73);
+    color: white;
+    border-radius: 8px;
+    text-decoration: none; /* sem sublinhado */
+    font-weight: bold;
+    transition: 0.3s;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 17px;
+}
+.botao:hover {
+    background: darkred;
+    padding: 15px;
+}
+a {
+    text-decoration: none;
+    border: none;
+    border-bottom: none;
+}
