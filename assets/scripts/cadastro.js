@@ -1,7 +1,7 @@
-// Link CORRETO da API do seu CodeSandbox
+
 const URL_BASE_DA_SUA_API = 'https://nnh8lq-50000.csb.app'; 
 
-// Captura os elementos do DOM
+
 const form = document.querySelector('form');
 const emailInput = document.querySelector('input[type="email"]');
 const nomeInput = document.querySelector('input[type="text"]');
@@ -20,7 +20,7 @@ form.addEventListener('submit', async (e) => {
     }
     const userData = { email, nome, senha }; 
     try {
-        // Requisição para o servidor CodeSandbox
+        // Requisição para o servidor
         const response = await fetch(URL_BASE_DA_SUA_API + '/cadastro', {
             method: 'POST',
             headers: {
@@ -31,7 +31,7 @@ form.addEventListener('submit', async (e) => {
         const data = await response.json();
         if (response.ok) {
             alert('Cadastro realizado com sucesso! Você já pode fazer login.');
-            // Redireciona para a tela de Login
+            // Redireciona para tela login
             window.location.href = 'login.html'; 
         } else {
             alert(`Erro ao cadastrar: ${data.message || 'Verifique os dados informados.'}`);
