@@ -62,7 +62,7 @@ body {
     margin-right: 10px;
     white-space: nowrap;
 }
-/* GRUPO LOGO + TÍTULO CENTRALIZADO */
+/* GRUPO LOGO TÍTULO CENTRALIZADO */
 .grupo-central-topo {
     flex-grow: 1; 
     text-align: center; 
@@ -84,7 +84,7 @@ body {
     font-size: 1.2rem;
     line-height: 1; 
 }
-/* ÁREA DE MENSAGENS */
+/* AREA DE MENSAGENS */
 .area-mensagens {
     flex-grow: 1;
     padding: 20px;
@@ -101,7 +101,7 @@ body {
     background-color: #555;
     border-radius: 4px;
 }
-/* ESTILO DAS BOLHAS DE MENSAGEM */
+/* ESTILO BOLHAS MENSAGEM */
 .bolha-mensagem {
     max-width: 75%;
     padding: 10px 15px;

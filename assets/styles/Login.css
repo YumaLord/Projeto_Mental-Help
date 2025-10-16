@@ -40,7 +40,7 @@ aside {
 
 main {
     grid-area: conteudo;
-    background-image: url(https://scontent-gru2-1.xx.fbcdn.net/v/t1.15752-9/550579767_1167104428812876_8427114708209099272_n.png?_nc_cat=107&ccb=1-7&_nc_sid=0024fc&_nc_ohc=gkmHI2IDnz4Q7kNvwGtVjAs&_nc_oc=AdkyZMY7GJweaRn7CHBml7IaJt_F7Hf9tlRHRclNC1cvSBQlZ_cHo4GfBhHQLDTqQWo&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=scontent-gru2-1.xx&oh=03_Q7cD3QHJvFxKkkALwOjpbfbjaoBjLCFiWDuqOc3JKOw2gNGExg&oe=68F3A5E5);
+    background-image: url(../img/Fundo-Mental.png);
     background-size: cover;
     background-repeat: no-repeat;
     display: flex;
@@ -70,7 +70,7 @@ main {
 /* Pro login formulario */
 
 .conteudo-centralizado {
-    gap: 5px;
+    gap: 10px;
     width: 350px;
     background-color: #3b3b3b;
     padding: 20px;
@@ -79,6 +79,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
+
     color: white;
 }
 .input-group {
@@ -88,6 +89,7 @@ main {
 .input-field {
     width: 100%;
     padding: 15px;
+    margin: 5px 0px;
     border-radius: 10px;
     border: none;
     background-color: #636363;
@@ -98,6 +100,23 @@ main {
 .input-field::placeholder {
     color: #ccc;
 }
+
+
+
+.button-field {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    background-color: #ffffff;
+    color: #4b4b4b;
+    box-sizing: border-box;
+    outline: none;
+}
+
+
+
 
 .text-links {
     margin-top: 20px;
