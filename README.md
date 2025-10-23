@@ -23,9 +23,9 @@ O app possui **botão de denúncia** para proteção dos usuários, e a escola p
 
 ---
 
-## 🎯 Objetivo Principal
+## 🎯 Foco Principal
 
-Promover o **bem-estar emocional e social dos alunos**, incentivando **diálogo, respeito e apoio mútuo** dentro e fora da escola.
+Promover o **bem-estar emocional e social dos alunos**, incentivando **diálogo, respeito e apoio mútuo** dentro e até mesmo fora da escola.
 
 ---
 
