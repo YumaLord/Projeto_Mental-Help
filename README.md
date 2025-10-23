@@ -31,9 +31,9 @@ Promover o **bem-estar emocional e social dos alunos**, incentivando **diálogo,
 
 ## ⚙️ Tecnologias Utilizadas
 
-- 💻 Frontend: Visual Studio Code  
-- 🖥️ Backend: Node.js + Express  
-- 🗄️ Banco de Dados: SQLite (Prisma ORM)  
+- 💻 **Frontend:** HTML + CSS
+- 🖥️ **Backend:** Node.js + Express  
+- 🗄️ **Banco de Dados:** SQLite (Prisma ORM)  
 
 ---
 
