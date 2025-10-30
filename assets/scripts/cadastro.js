@@ -1,5 +1,5 @@
 
-const URL_BASE_DA_SUA_API = 'https://nnh8lq-50000.csb.app'; 
+const URL_BASE_DA_API = 'https://6w5tw6-3000.csb.app'; 
 
 
 const form = document.querySelector('form');
@@ -14,14 +14,15 @@ form.addEventListener('submit', async (e) => {
     const nome = nomeInput.value;
     const senha = senhaInput.value;
     const confirmarSenha = confirmarSenhaInput.value;
+
     if (senha !== confirmarSenha) {
         alert('As senhas não coincidem!');
         return;
     }
-    const userData = { email, nome, senha }; 
+    const userData = { email, nome, senha, avatar: "tomas", idade: 18, apelido: "to"}; 
     try {
         // Requisição para o servidor
-        const response = await fetch(URL_BASE_DA_SUA_API + '/cadastro', {
+        const response = await fetch(URL_BASE_DA_API + '/usuarios', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -38,6 +39,6 @@ form.addEventListener('submit', async (e) => {
         }
     } catch (error) {
         console.error('Erro de rede:', error);
-        alert('Não foi possível conectar ao servidor. Verifique se o CodeSandbox está rodando.');
+        alert('Não foi possivel conectar ao servidor. Verifique CodeSandbox esta rodando.');
     }
 });

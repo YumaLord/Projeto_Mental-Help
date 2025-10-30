@@ -20,13 +20,14 @@ header {
     grid-area: header;
     background-color: rgb(44, 49, 47);
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
     font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 4rem;
     color: rgb(228, 239, 248);
     background-size: contain;
     background-repeat: no-repeat;
+    gap: 350px;
 }
 main {
     grid-area: conteudo;
@@ -68,4 +69,55 @@ a {
     text-decoration: none;
     border: none;
     border-bottom: none;
+}
+.photo-profile {
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+    background-image: url(../img/Driving\ in\ my\ car.jpeg);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+/*MODAL*/
+.modal {
+  width: 100px;
+  height: 100px;
+  background-color: #CE7B91;
+  color: white;
+  padding: 10px;
+}
+
+.back-modal{
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  background-color:black;
+  opacity: 0.8;
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  cursor: pointer;
+
+  top: 0;
+  left: 0;
+}
+.disable{
+  display: none;
+}
+
+.modal p {
+    font-size: 20px;
+}
+.card {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background-color: rgb(243, 250, 255);
+    transform: translate(-100%, 100%);
+    z-index: 30;
+    transition: 1s;
 }
