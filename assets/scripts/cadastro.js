@@ -1,5 +1,4 @@
-
-const URL_BASE_DA_API = 'https://6w5tw6-3000.csb.app'; 
+const URL_BASE_DA_API = 'https://6w5tw6-3002.csb.app'; 
 
 
 const form = document.querySelector('form');
@@ -8,31 +7,45 @@ const nomeInput = document.querySelector('input[type="text"]');
 const senhaInputs = document.querySelectorAll('input[type="password"]');
 const senhaInput = senhaInputs[0]; 
 const confirmarSenhaInput = senhaInputs[1];
+const tipoInput = document.getElementById('tipo');
+
 form.addEventListener('submit', async (e) => {
     e.preventDefault(); 
+    
     const email = emailInput.value;
     const nome = nomeInput.value;
     const senha = senhaInput.value;
     const confirmarSenha = confirmarSenhaInput.value;
+    const tipo = tipoInput.value;
 
     if (senha !== confirmarSenha) {
-        alert('As senhas não coincidem!');
+        alert('As senhas não coincidem');
         return;
     }
-    const userData = { email, nome, senha, avatar: "tomas", idade: 18, apelido: "to"}; 
+    
+    const userData = { 
+        email, 
+        nome, 
+        senha, 
+        avatar: "tomas", 
+        idade: 18, 
+        apelido: "to",
+        tipo
+    }; 
+    
     try {
-        // Requisição para o servidor
-        const response = await fetch(URL_BASE_DA_API + '/usuarios', {
+        const response = await fetch(URL_BASE_DA_API + '/cadastro', { 
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(userData),
         });
+        
         const data = await response.json();
+        
         if (response.ok) {
             alert('Cadastro realizado com sucesso! Você já pode fazer login.');
-            // Redireciona para tela login
             window.location.href = 'login.html'; 
         } else {
             alert(`Erro ao cadastrar: ${data.message || 'Verifique os dados informados.'}`);

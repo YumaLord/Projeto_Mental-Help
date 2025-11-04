@@ -3,8 +3,8 @@ const botaoEnviar = document.getElementById('botao-enviar');
 const areaMensagens = document.getElementById('area-mensagens');
 
 
-   @param {string} texto
-   @param {string} tipo
+    @param {string} texto
+    @param {string} tipo
 
 function adicionarMensagem(texto, tipo) {
 
@@ -31,15 +31,13 @@ function enviarMensagem() {
         }, 1000);
     }
 }
-// Evento
-// 1. Envia mensagem
 botaoEnviar.addEventListener('click', enviarMensagem);
-// 2. Enviar mensagem pressionar Enter no campo input
+
 inputMensagem.addEventListener('keypress', (evento) => {
-    // Verifica se pressionou enter
+
     if (evento.key === 'Enter') {
         enviarMensagem();
-        // anti quebra de linha do input
+
         evento.preventDefault(); 
     }
 });
