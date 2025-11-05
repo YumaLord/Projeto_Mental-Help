@@ -3,38 +3,45 @@ const { PrismaClient } = require("@prisma/client");
 const bcrypt = require("bcryptjs");
 const cors = require("cors");
 
+const { rotasUsuario } = require("./controllers/usuario.js");
+const { rotaLogin } = require("./controllers/login.js");
+
+app.use(rotasUsuario);
+app.use(rotaLogin);
+
 const app = express();
 
 const prisma = new PrismaClient();
-const PORT = 3000;
+const PORT = 3001;
 
 app.use(express.json());
 app.use(cors());
 
 app.post("/cadastro", async (req, res) => {
-  const { email, nome, senha } = req.body;
+  const { email, nome, senha, avatar, idade, tipo, apelido } = req.body;
 
-  if (!email || !nome || !senha) {
-    return res
-      .status(400)
-      .json({ message: "Todos os campos são obrigatórios." });
+  if (!email || !nome || !senha || !tipo) {
+    return res.status(400).json({
+      message: "Todos os campos são obrigatórios.",
+    });
   }
 
   try {
-    // 1. Criptografar a senha (PROTEÇÃO ESSENCIAL!)
     const salt = await bcrypt.genSalt(10);
     const senhaHash = await bcrypt.hash(senha, salt);
 
-    // 2. Salvar o novo usuário no banco de dados (Prisma)
     const novoUsuario = await prisma.usuario.create({
       data: {
-        // **ATENÇÃO:** Mude 'matricula', 'avatar' e 'idade' se o seu schema for diferente.
-        matricula: email,
+        // O campo 'matricula' foi removido do modelo no meu último exemplo,
+        // usando apenas 'email' como identificador único.
+        // Se 'matricula' ainda existir no seu schema, ajuste a linha abaixo.
         email: email,
         nome: nome,
         senha: senhaHash,
-        avatar: "default.jpg",
-        idade: 0,
+        avatar: avatar || "default.jpg", // Usa o avatar enviado ou um padrão
+        idade: idade || 0, // Usa a idade enviada ou um padrão
+        apelido: apelido || nome,
+        tipo: tipo, // NOVO: Salva o tipo (ALUNO/PSICOLOGO)
       },
     });
 
@@ -46,44 +53,77 @@ app.post("/cadastro", async (req, res) => {
     console.error("Erro no cadastro:", error);
 
     if (error.code === "P2002") {
-      return res
-        .status(409)
-        .json({ message: "E-mail ou Matrícula já cadastrada." });
+      return res.status(409).json({ message: "E-mail já cadastrado." });
     }
     res.status(500).json({ message: "Erro interno do servidor." });
   }
 });
 
 app.post("/login", async (req, res) => {
-  const { matricula, senha } = req.body;
+  // CORRIGIDO: Seu Front-end envia 'email', não 'matricula'
+  const { email, senha } = req.body;
 
-  if (!matricula || !senha) {
+  if (!email || !senha) {
     return res
       .status(400)
-      .json({ message: "Matrícula e senha são obrigatórias." });
+      .json({ message: "E-mail e senha são obrigatórias." });
   }
 
   try {
     const usuario = await prisma.usuario.findUnique({
-      where: { matricula: matricula },
+      where: { email: email }, // CORRIGIDO: Busca pelo 'email'
     });
 
     if (!usuario) {
-      return res.status(401).json({ message: "Matrícula ou senha inválida." });
+      return res.status(401).json({ message: "E-mail ou senha inválida." });
     }
 
     const senhaCorreta = await bcrypt.compare(senha, usuario.senha);
 
     if (!senhaCorreta) {
-      return res.status(401).json({ message: "Matrícula ou senha inválida." });
+      return res.status(401).json({ message: "E-mail ou senha inválida." });
     }
 
     res.status(200).json({
       message: "Login bem-sucedido!",
+      userId: usuario.id,
+      tipo: usuario.tipo,
     });
   } catch (error) {
     console.error("Erro no login:", error);
     res.status(500).json({ message: "Erro interno do servidor." });
+  }
+});
+
+app.get("/usuarios/:tipo", async (req, res) => {
+  // Captura o tipo da URL (Ex: /usuarios/PSICOLOGO)
+  const { tipo } = req.params;
+
+  // Validação básica do tipo
+  if (tipo !== "ALUNO" && tipo !== "PSICOLOGO") {
+    return res.status(400).json({ message: "Tipo de usuário inválido." });
+  }
+
+  try {
+    const usuarios = await prisma.usuario.findMany({
+      where: {
+        tipo: tipo,
+      },
+      select: {
+        id: true,
+        nome: true,
+        avatar: true,
+        apelido: true,
+        email: true,
+        idade: true,
+        tipo: true,
+      },
+    });
+
+    res.json(usuarios);
+  } catch (error) {
+    console.error("Erro ao buscar usuários:", error);
+    res.status(500).json({ message: "Erro interno ao buscar usuários." });
   }
 });
 

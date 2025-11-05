@@ -149,7 +149,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/project/sandbox/generated/prisma",
+      "value": "/project/workspace/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -163,7 +163,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/project/sandbox/prisma/schema.prisma",
+    "sourceFilePath": "/project/workspace/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -177,7 +177,7 @@ const config = {
     "db"
   ],
   "activeProvider": "sqlite",
-  "postinstall": true,
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {

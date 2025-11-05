@@ -2,45 +2,55 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// NOVO: Define os papéis
+enum TipoUsuario {
+  PSICOLOGO
+  ALUNO
 }
 
 model Usuario {
-  id        Int      @id @default(autoincrement())
-  nome      String
-  avatar    String
-  idade     Int
-  email     String   @unique // Adicionado: Garante que o e-mail seja único
-  senha     String
-  apelido   String?
-  consulta  Consulta[]
+  id        Int      @id @default(autoincrement())
+  nome      String
+  avatar    String
+  idade     Int
+  email     String   @unique 
+  senha     String
+  apelido   String?
+  // NOVO: Campo que define o papel do usuário (Aluno/Psicólogo)
+  tipo      TipoUsuario @default(ALUNO) 
+  consulta  Consulta[]
 }
+
+// ... (Resto dos seus modelos Consulta, Chat, Mensagem)
+// Você pode manter o restante dos modelos como estão
 model Consulta {
-  id      Int   @id @default(autoincrement())
-  horario DateTime
-  data    DateTime
-  flag    String?
-  chat    Chat?
-  usuario Usuario[]
+  id      Int   @id @default(autoincrement())
+  horario DateTime
+  data    DateTime
+  flag    String?
+  chat    Chat?
+  usuario Usuario[]
 }
 model Chat {
-  id      Int   @id @default(autoincrement())
-  data_do_chat DateTime
-  hora_do_chat DateTime
-  consulta     Consulta @relation(fields: [consulta_id], references: [id])
-  consulta_id  Int @unique
-  mensagens    Mensagem[]
+  id      Int   @id @default(autoincrement())
+  data_do_chat DateTime
+  hora_do_chat DateTime
+  consulta     Consulta @relation(fields: [consulta_id], references: [id])
+  consulta_id  Int @unique
+  mensagens    Mensagem[]
 }
 model Mensagem {
-  id      Int   @id @default(autoincrement())
-  caracteres String
-  data_envio DateTime
-  chat_id    Int
-  chat       Chat @relation(fields: [chat_id], references: [id])
+  id      Int   @id @default(autoincrement())
+  caracteres String
+  data_envio DateTime
+  chat_id    Int
+  chat       Chat @relation(fields: [chat_id], references: [id])
 }
