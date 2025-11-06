@@ -33,7 +33,7 @@ async function login(email, senha) {
     const json = await resposta.json()
 
     sessionStorage.setItem("token", json.token)
-    sessionStorage.setItem("userRole", json.tipo);
+    sessionStorage.setItem("userRole", json.tipo); 
     
     const tipoUsuario = json.tipo; 
     
