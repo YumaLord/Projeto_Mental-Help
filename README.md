@@ -2,8 +2,8 @@
 # 🧠 MentalHelp
 
 **MentalHelp** é um aplicativo voltado à **saúde mental dos alunos** na escola.  
-Os alunos entram com a **conta gov.br** para ter acesso seguro e podem conversar com **colegas ou psicólogos verificados**, fortalecendo **autoestima, confiança e relações sociais**.  
-O app possui **botão de denúncia** para proteção dos usuários, e a escola pode acessar mensagens e matrículas apenas quando necessário, garantindo segurança e responsabilidade.
+Os alunos entram com sua **Conta Google** para ter acesso seguro e podem conversar com **Psicólogos Verificados**, fortalecendo **autoestima, confiança e relações sociais**.  
+A escola pode acessar mensagens e matrículas _apenas **quando** necessário_, garantindo segurança e responsabilidade.
 
 ---
 
@@ -31,7 +31,7 @@ Promover o **bem-estar emocional e social dos alunos**, incentivando **diálogo,
 
 ## ⚙️ Tecnologias Utilizadas
 
-- 💻 Frontend: Visual Studio Code
+- 💻 Frontend: HTML, CSS, JS
 - 🖥️ Backend: Node.js + Express
 - 🗄️ Banco de Dados: SQLite (Prisma ORM)  
 
