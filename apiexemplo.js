@@ -32,16 +32,13 @@ app.post("/cadastro", async (req, res) => {
 
     const novoUsuario = await prisma.usuario.create({
       data: {
-        // O campo 'matricula' foi removido do modelo no meu último exemplo,
-        // usando apenas 'email' como identificador único.
-        // Se 'matricula' ainda existir no seu schema, ajuste a linha abaixo.
         email: email,
         nome: nome,
         senha: senhaHash,
-        avatar: avatar || "default.jpg", // Usa o avatar enviado ou um padrão
-        idade: idade || 0, // Usa a idade enviada ou um padrão
+        avatar: avatar || "default.jpg",
+        idade: idade || 0,
         apelido: apelido || nome,
-        tipo: tipo, // NOVO: Salva o tipo (ALUNO/PSICOLOGO)
+        tipo: tipo,
       },
     });
 
@@ -60,7 +57,6 @@ app.post("/cadastro", async (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  // CORRIGIDO: Seu Front-end envia 'email', não 'matricula'
   const { email, senha } = req.body;
 
   if (!email || !senha) {
@@ -71,7 +67,7 @@ app.post("/login", async (req, res) => {
 
   try {
     const usuario = await prisma.usuario.findUnique({
-      where: { email: email }, // CORRIGIDO: Busca pelo 'email'
+      where: { email: email },
     });
 
     if (!usuario) {
@@ -96,10 +92,7 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/usuarios/:tipo", async (req, res) => {
-  // Captura o tipo da URL (Ex: /usuarios/PSICOLOGO)
   const { tipo } = req.params;
-
-  // Validação básica do tipo
   if (tipo !== "ALUNO" && tipo !== "PSICOLOGO") {
     return res.status(400).json({ message: "Tipo de usuário inválido." });
   }

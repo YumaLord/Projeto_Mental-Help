@@ -1,16 +1,11 @@
 const { Router } = require("express");
-const { db } = require("../db"); // Assumindo que o arquivo '../db.js' tem a instância do Prisma
-const bcrypt = require("bcryptjs"); // Importação do bcrypt para segurança
+const { db } = require("../db");
+const bcrypt = require("bcryptjs");
 const rotasUsuario = Router();
 
-// ==========================================================
-// ROTA DE LISTAGEM POR TIPO (GET /usuarios/:tipo)
-// A rota geral '/usuarios' não é mais usada para listas
-// ==========================================================
 rotasUsuario.get("/usuarios/:tipo", async (req, res) => {
-  const { tipo } = req.params; // Captura o tipo (ALUNO ou PSICOLOGO)
+  const { tipo } = req.params;
 
-  // Validação para garantir que o Front-end envie um tipo válido
   if (tipo !== "ALUNO" && tipo !== "PSICOLOGO") {
     return res
       .status(400)
@@ -20,10 +15,9 @@ rotasUsuario.get("/usuarios/:tipo", async (req, res) => {
   try {
     const usuarios = await db.usuario.findMany({
       where: {
-        tipo: tipo, // Filtra pelo tipo
+        tipo: tipo,
       },
       select: {
-        // Retorna apenas os dados que o Front-end precisa para a lista
         id: true,
         nome: true,
         avatar: true,
@@ -41,12 +35,7 @@ rotasUsuario.get("/usuarios/:tipo", async (req, res) => {
   }
 });
 
-// ==========================================================
-// ROTA DE CADASTRO (POST /usuarios)
-// No Front-end, mudamos a URL para /cadastro, mas esta rota é quem realmente cria.
-// ==========================================================
 rotasUsuario.post("/cadastro", async (req, res) => {
-  // CRÍTICO: Capturando o campo 'tipo' e os dados
   const { nome, avatar, idade, email, senha, apelido, tipo } = req.body;
 
   if (!email || !nome || !senha || !tipo) {
@@ -56,7 +45,6 @@ rotasUsuario.post("/cadastro", async (req, res) => {
   }
 
   try {
-    // CRÍTICO: Criptografa a senha antes de salvar
     const salt = await bcrypt.genSalt(10);
     const senhaHash = await bcrypt.hash(senha, salt);
 
@@ -66,9 +54,9 @@ rotasUsuario.post("/cadastro", async (req, res) => {
         avatar: avatar || "default.jpg",
         idade: idade || 0,
         email,
-        senha: senhaHash, // Salva a senha criptografada
+        senha: senhaHash,
         apelido: apelido || nome,
-        tipo: tipo, // Salva o tipo (ALUNO/PSICOLOGO)
+        tipo: tipo,
       },
     });
 
@@ -85,9 +73,6 @@ rotasUsuario.post("/cadastro", async (req, res) => {
   }
 });
 
-// ==========================================================
-// ROTA DE DELETAR (DELETE /usuarios/:id)
-// ==========================================================
 rotasUsuario.delete("/usuarios/:id", async (req, res) => {
   await db.usuario.delete({
     where: { id: Number(req.params.id) },

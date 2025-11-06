@@ -66,7 +66,8 @@ async function carregarAlunos() {
 }
 
 function iniciarChat(userId, userName) {
-    alert(`Iniciando chat com o aluno(a) ${userName} (ID: ${userId}).`);
+    alert(`Iniciando chat com o aluno(a) ${userName} (ID: ${userId}).`); 
+    window.location.href = `chat.html?targetId=${userId}&targetName=${userName}`;
 }
 
 carregarAlunos();

@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,44 +8,57 @@ datasource db {
 }
 
 enum TipoUsuario {
-  ALUNO
-  PSICOLOGO
+  ALUNO
+  PSICOLOGO
 }
 
 model Usuario {
   id        Int      @id @default(autoincrement())
   nome      String
-  avatar    String
+  avatar    String?
   idade     Int
   email     String   @unique 
   senha     String
   apelido   String?
-  tipo      TipoUsuario @default(ALUNO) 
+  tipo      TipoUsuario @default(ALUNO) 
+  
+  chatsIniciado Chat[] @relation("ChatUser1")
+  chatsRecebido  Chat[] @relation("ChatUser2")
+  mensagensEnviadas Mensagem[] @relation("MensagemRemetente")
+  
   consulta  Consulta[]
 }
 
-// ... (Resto dos seus modelos Consulta, Chat, Mensagem)
-// Você pode manter o restante dos modelos como estão
+model Chat {
+  id          Int       @id @default(autoincrement())
+  usuario1Id  Int
+  usuario2Id  Int
+  dataCriacao DateTime  @default(now())
+  
+  usuario1    Usuario   @relation("ChatUser1", fields: [usuario1Id], references: [id])
+  usuario2    Usuario   @relation("ChatUser2", fields: [usuario2Id], references: [id])
+  
+  mensagens   Mensagem[]
+  
+  @@unique([usuario1Id, usuario2Id])
+}
+
+model Mensagem {
+  id          Int      @id @default(autoincrement())
+  conteudo    String
+  dataEnvio   DateTime @default(now())
+  
+  remetenteId Int
+  remetente   Usuario @relation("MensagemRemetente", fields: [remetenteId], references: [id])
+  
+  chatId      Int
+  chat        Chat    @relation(fields: [chatId], references: [id])
+}
+
 model Consulta {
   id      Int   @id @default(autoincrement())
   horario DateTime
   data    DateTime
   flag    String?
-  chat    Chat?
   usuario Usuario[]
-}
-model Chat {
-  id      Int   @id @default(autoincrement())
-  data_do_chat DateTime
-  hora_do_chat DateTime
-  consulta     Consulta @relation(fields: [consulta_id], references: [id])
-  consulta_id  Int @unique
-  mensagens    Mensagem[]
-}
-model Mensagem {
-  id      Int   @id @default(autoincrement())
-  caracteres String
-  data_envio DateTime
-  chat_id    Int
-  chat       Chat @relation(fields: [chat_id], references: [id])
 }

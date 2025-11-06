@@ -8,7 +8,6 @@ rotaLogin.post("/login", async (req, res) => {
   const { email, senha } = req.body;
 
   try {
-    //Busca o usuário pelo email
     const usuario = await db.usuario.findFirst({
       where: { email },
     });

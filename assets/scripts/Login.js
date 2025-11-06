@@ -9,8 +9,8 @@ document.querySelector("form")
     login(email, senha)
 })
 
-const ROTA_ALUNO = "procurar_psicologo.html";
 
+const ROTA_ALUNO = "procurar_psicologo.html";
 const ROTA_PSICOLOGO = "procurar_aluno.html";
 
 
