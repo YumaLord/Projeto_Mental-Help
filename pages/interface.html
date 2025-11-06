@@ -1,41 +1,46 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mental_Help</title>
-    <link rel="stylesheet" href="../assets/styles/interface.css">
-    <script src="../assets/scripts/Deslogar.js"></script>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental_Help</title>
+    <link rel="stylesheet" href="../assets/styles/interface.css">
+    <script src="../assets/scripts/Deslogar.js"></script>
+    <script src="../assets/scripts/verificarLogin.js"></script>
 </head>
 <body>
 
-    <header>
-        <div style="width: 65px; height: 70px;"></div>
-        <p>Mental Help</p>
+    <header>
+        <div style="width: 65px; height: 70px;"></div>
+        <p>Mental Help</p>
 
 
-        <div onclick="showModal()" class="photo-profile">
-            <div class="card disable">
-                <img src="../assets/img/sair.svg" alt="">
+        <div onclick="showModal()" class="photo-profile">
+                        <div class="card disable" id="modal-sair">
                 
-            </div>
-        </div>
+                <button onclick="deslogarUsuario()" class="botao-sair-modal">
+                    <img src="../assets/img/sair.svg" alt="Ícone de Sair">
+                    <span>Sair da Conta</span>
+                </button>
+                
+                <button onclick="closeModal()" class="botao-cancelar-modal">
+                    <span>Cancelar</span>
+                </button>
+                
+            </div>
+        </div>
 
-    </header>
+    </header>
+    <main>
+        <button><a class="botao" href="procurar_psicologo.html">Procurar psicólogo</a></button>
+        <br>
 
-    <main>
-        <button><a class="botao" href="procurar_psicologo.html">Procurar psicólogo</a></button>
-        <br>
-
-        <button><a class="botao" href="procurar_aluno.html">Procurar Aluno</a></button>
-        <br>
-
-        <button><a class="botao" href="Login-interface.html">Login</a></button>
-        <br>
+        <button><a class="botao" href="procurar_aluno.html">Procurar Aluno</a></button>
+        <br>
+        
         <button><a class="botao" href="doacoes.html">Doação</a></button>
-    </main>
+    </main>
 
-    <aside></aside>
+    <aside></aside>
 </body>
 </html>

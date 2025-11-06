@@ -10,10 +10,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// NOVO: Define os papéis
 enum TipoUsuario {
-  PSICOLOGO
   ALUNO
+  PSICOLOGO
 }
 
 model Usuario {
@@ -24,7 +23,6 @@ model Usuario {
   email     String   @unique 
   senha     String
   apelido   String?
-  // NOVO: Campo que define o papel do usuário (Aluno/Psicólogo)
   tipo      TipoUsuario @default(ALUNO) 
   consulta  Consulta[]
 }
