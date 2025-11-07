@@ -1,4 +1,4 @@
-// NO ARQUIVO chat.js (CÓDIGO FINAL COM CORREÇÃO DO ADD EVENT LISTENER)
+// NO ARQUIVO chat.js (COM LINHA DE DEBUG PARA DESTINATÁRIO ID)
 
 const URL_BASE_DA_API = 'https://6w5tw6-3002.csb.app';
 
@@ -43,7 +43,11 @@ function obterParametrosURL() {
 
     // DEBUG: Obtém o ID real do token
     remetenteId = getRemetenteIdFromToken(); 
+    
+    // 📢 DEBUG CRÍTICO AQUI: Confirma os dois IDs
     console.log(`DEBUG CHAT: Remetente ID lido do Token: ${remetenteId}`);
+    console.log(`DEBUG CHAT: Destinatário ID lido da URL: ${destinatarioId}`);
+
 
     if (destinatarioName) {
         document.title = `Chat com ${destinatarioName}`;
@@ -61,7 +65,7 @@ function obterParametrosURL() {
     return true;
 }
 
-// ... (Restante das Funções: carregarHistorico, enviarMensagem, etc.)
+// ... (Restante das Funções: carregarHistorico, enviarMensagem, exibirMensagens, adicionarMensagemNaTela, rolarParaBaixo, etc. permanecem inalteradas)
 
 async function carregarHistorico() {
     // Código da sua função carregarHistorico...
@@ -73,12 +77,12 @@ async function carregarHistorico() {
     try {
         const response = await fetch(url, {
             method: 'GET',
-            headers: { 'Authorization': `Bearer ${token}` }
+            // Headers removidos para o teste sem autenticação no Back-end
+            // headers: { 'Authorization': `Bearer ${token}` }
         });
 
         if (!response.ok) {
             // Se falhar (ex: 401 Unauthorized), mostra "Inicie uma conversa"
-            // E registra o erro no console.
             console.error('Falha na autenticação ou busca de histórico:', response.status);
             areaMensagens.innerHTML = '<p class="info">Inicie uma nova conversa.</p>';
             return;
@@ -116,7 +120,8 @@ async function enviarMensagem(event) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}` 
+                // Headers removidos para o teste sem autenticação no Back-end
+                // 'Authorization': `Bearer ${token}` 
             },
             body: JSON.stringify(dadosMensagem)
         });
@@ -158,7 +163,9 @@ function adicionarMensagemNaTela(mensagem) {
     const divMensagem = document.createElement('div');
     divMensagem.className = 'bolha-mensagem ' + tipo;
     
-    const horaFormatada = new Date(mensagem.dataEnvio).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    // Certifique-se de que o campo dataEnvio está sendo usado
+    const dataObj = new Date(mensagem.dataEnvio || Date.now()); 
+    const horaFormatada = dataObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
     divMensagem.innerHTML = `
         <span class="conteudo">${mensagem.conteudo}</span>
