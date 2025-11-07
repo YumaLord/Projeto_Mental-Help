@@ -1,8 +1,8 @@
-// NO ARQUIVO chat.js (COM LINHA DE DEBUG PARA DESTINATÁRIO ID)
+// NO ARQUIVO chat.js (FRONT-END) - RESTAURANDO OS HEADERS DE AUTENTICAÇÃO
 
 const URL_BASE_DA_API = 'https://6w5tw6-3002.csb.app';
 
-// Variáveis DOM (Mantidas globais, mas inicializadas dentro do 'load')
+// Variáveis DOM... (Mantidas)
 let inputMensagem;
 let botaoEnviar;
 let areaMensagens;
@@ -14,14 +14,14 @@ let destinatarioName;
 
 // 🔑 Função principal que será chamada APENAS quando a página carregar
 function iniciarChatPrincipal() {
-    // 1. INICIALIZAÇÃO DOS ELEMENTOS APÓS O LOAD (Resolve o TypeError)
+    // 1. INICIALIZAÇÃO DOS ELEMENTOS...
     inputMensagem = document.getElementById('input-mensagem');
     botaoEnviar = document.getElementById('botao-enviar');
     areaMensagens = document.getElementById('area-mensagens');
 
     // 2. Tenta obter os parâmetros e o ID do token
     if (obterParametrosURL()) {
-        // 3. Adiciona os listeners APÓS ter certeza que os botões existem
+        // 3. Adiciona os listeners...
         botaoEnviar.addEventListener('click', enviarMensagem);
         inputMensagem.addEventListener('keypress', (evento) => {
             if (evento.key === 'Enter') {
@@ -41,10 +41,9 @@ function obterParametrosURL() {
     destinatarioId = parseInt(params.get('targetId'));
     destinatarioName = params.get('targetName');
 
-    // DEBUG: Obtém o ID real do token
     remetenteId = getRemetenteIdFromToken(); 
     
-    // 📢 DEBUG CRÍTICO AQUI: Confirma os dois IDs
+    // DEBUG CRÍTICO AQUI: Confirma os dois IDs
     console.log(`DEBUG CHAT: Remetente ID lido do Token: ${remetenteId}`);
     console.log(`DEBUG CHAT: Destinatário ID lido da URL: ${destinatarioId}`);
 
@@ -65,10 +64,8 @@ function obterParametrosURL() {
     return true;
 }
 
-// ... (Restante das Funções: carregarHistorico, enviarMensagem, exibirMensagens, adicionarMensagemNaTela, rolarParaBaixo, etc. permanecem inalteradas)
 
 async function carregarHistorico() {
-    // Código da sua função carregarHistorico...
     areaMensagens.innerHTML = '<p class="loading">Carregando histórico de mensagens...</p>';
 
     const url = `${URL_BASE_DA_API}/chat/${remetenteId}/${destinatarioId}`;
@@ -77,13 +74,12 @@ async function carregarHistorico() {
     try {
         const response = await fetch(url, {
             method: 'GET',
-            // Headers removidos para o teste sem autenticação no Back-end
-            // headers: { 'Authorization': `Bearer ${token}` }
+            // 🔑 CORREÇÃO: Colocando o header de autenticação de volta no GET
+            headers: { 'Authorization': `Bearer ${token}` }
         });
 
         if (!response.ok) {
-            // Se falhar (ex: 401 Unauthorized), mostra "Inicie uma conversa"
-            console.error('Falha na autenticação ou busca de histórico:', response.status);
+            console.error('Falha na busca de histórico:', response.status);
             areaMensagens.innerHTML = '<p class="info">Inicie uma nova conversa.</p>';
             return;
         }
@@ -120,14 +116,13 @@ async function enviarMensagem(event) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                // Headers removidos para o teste sem autenticação no Back-end
-                // 'Authorization': `Bearer ${token}` 
+                // 🔑 CORREÇÃO: Colocando o header de autenticação de volta no POST
+                'Authorization': `Bearer ${token}` 
             },
             body: JSON.stringify(dadosMensagem)
         });
 
         if (!response.ok) {
-             // Mostra o erro exato do Back-end
             throw new Error(`Falha ao enviar mensagem. Status: ${response.status}`);
         }
 
@@ -163,7 +158,6 @@ function adicionarMensagemNaTela(mensagem) {
     const divMensagem = document.createElement('div');
     divMensagem.className = 'bolha-mensagem ' + tipo;
     
-    // Certifique-se de que o campo dataEnvio está sendo usado
     const dataObj = new Date(mensagem.dataEnvio || Date.now()); 
     const horaFormatada = dataObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
