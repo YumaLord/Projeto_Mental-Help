@@ -1,8 +1,7 @@
-// NO ARQUIVO chat.js (FRONT-END) - RESTAURANDO OS HEADERS DE AUTENTICAÇÃO
-
 const URL_BASE_DA_API = 'https://6w5tw6-3002.csb.app';
 
-// Variáveis DOM... (Mantidas)
+let historicoCarregadoInicialmente = false;
+
 let inputMensagem;
 let botaoEnviar;
 let areaMensagens;
@@ -11,17 +10,12 @@ let remetenteId;
 let destinatarioId;
 let destinatarioName; 
 
-
-// 🔑 Função principal que será chamada APENAS quando a página carregar
 function iniciarChatPrincipal() {
-    // 1. INICIALIZAÇÃO DOS ELEMENTOS...
     inputMensagem = document.getElementById('input-mensagem');
     botaoEnviar = document.getElementById('botao-enviar');
     areaMensagens = document.getElementById('area-mensagens');
 
-    // 2. Tenta obter os parâmetros e o ID do token
     if (obterParametrosURL()) {
-        // 3. Adiciona os listeners...
         botaoEnviar.addEventListener('click', enviarMensagem);
         inputMensagem.addEventListener('keypress', (evento) => {
             if (evento.key === 'Enter') {
@@ -29,8 +23,7 @@ function iniciarChatPrincipal() {
             }
         });
 
-        // 4. Carrega o histórico (GET)
-        carregarHistorico();
+        setInterval(carregarHistorico, 2000); 
     }
 }
 
@@ -42,8 +35,7 @@ function obterParametrosURL() {
     destinatarioName = params.get('targetName');
 
     remetenteId = getRemetenteIdFromToken(); 
-    
-    // DEBUG CRÍTICO AQUI: Confirma os dois IDs
+
     console.log(`DEBUG CHAT: Remetente ID lido do Token: ${remetenteId}`);
     console.log(`DEBUG CHAT: Destinatário ID lido da URL: ${destinatarioId}`);
 
@@ -66,7 +58,10 @@ function obterParametrosURL() {
 
 
 async function carregarHistorico() {
-    areaMensagens.innerHTML = '<p class="loading">Carregando histórico de mensagens...</p>';
+    
+    if (!historicoCarregadoInicialmente) {
+        areaMensagens.innerHTML = '<p class="loading">Carregando histórico de mensagens...</p>';
+    }
 
     const url = `${URL_BASE_DA_API}/chat/${remetenteId}/${destinatarioId}`;
     const token = sessionStorage.getItem('token'); 
@@ -74,22 +69,28 @@ async function carregarHistorico() {
     try {
         const response = await fetch(url, {
             method: 'GET',
-            // 🔑 CORREÇÃO: Colocando o header de autenticação de volta no GET
             headers: { 'Authorization': `Bearer ${token}` }
         });
 
+        historicoCarregadoInicialmente = true; 
+
         if (!response.ok) {
-            console.error('Falha na busca de histórico:', response.status);
-            areaMensagens.innerHTML = '<p class="info">Inicie uma nova conversa.</p>';
+            if (areaMensagens.children.length === 0) {
+                areaMensagens.innerHTML = '<p class="info">Inicie uma nova conversa.</p>';
+            }
             return;
         }
 
         const mensagens = await response.json();
-        exibirMensagens(mensagens);
+        exibirMensagens(mensagens); 
 
     } catch (error) {
+        historicoCarregadoInicialmente = true; 
+        
         console.error('Erro de rede ao carregar histórico:', error);
-        areaMensagens.innerHTML = '<p class="error">Não foi possível conectar ao servidor para buscar histórico.</p>';
+        if (areaMensagens.children.length === 0) {
+            areaMensagens.innerHTML = '<p class="error">Não foi possível conectar ao servidor.</p>';
+        }
     }
 }
 
@@ -116,7 +117,6 @@ async function enviarMensagem(event) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                // 🔑 CORREÇÃO: Colocando o header de autenticação de volta no POST
                 'Authorization': `Bearer ${token}` 
             },
             body: JSON.stringify(dadosMensagem)
@@ -174,5 +174,6 @@ function rolarParaBaixo() {
 }
 
 
-// 🔑 PONTO DE ENTRADA: Garante que o código só roda APÓS o HTML ser carregado
+
+
 window.addEventListener('load', iniciarChatPrincipal);
