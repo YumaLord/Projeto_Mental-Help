@@ -1,4 +1,3 @@
-/* Configuração fonte */
 body {
     font-family: 'Inter', sans-serif;
     background-color: #1a1a1a;
@@ -161,5 +160,26 @@ body {
     background-color: #0056b3;
 }
 #botao-enviar:active {
+    transform: scale(0.95);
+}
+
+
+
+#botao-anexar {
+    background-color: #007bff;
+    border: none;
+    border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+#botao-anexar:hover {
+    background-color: #0056b3;
+}
+#botao-anexar:active {
     transform: scale(0.95);
 }

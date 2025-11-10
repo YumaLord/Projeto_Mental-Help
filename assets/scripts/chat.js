@@ -6,17 +6,29 @@ let inputMensagem;
 let botaoEnviar;
 let areaMensagens;
 
+let inputArquivo;
+let botaoAnexar;
+
 let remetenteId;
 let destinatarioId;
 let destinatarioName; 
 
 function iniciarChatPrincipal() {
     inputMensagem = document.getElementById('input-mensagem');
+    inputArquivo = document.getElementById('input-arquivo');
     botaoEnviar = document.getElementById('botao-enviar');
     areaMensagens = document.getElementById('area-mensagens');
+    botaoAnexar = document.getElementById('botao-anexar');
 
     if (obterParametrosURL()) {
         botaoEnviar.addEventListener('click', enviarMensagem);
+        botaoAnexar.addEventListener('click', () => inputArquivo.click());
+
+        inputArquivo.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                enviarArquivo(e.target.files[0]);
+            }
+        });
         inputMensagem.addEventListener('keypress', (evento) => {
             if (evento.key === 'Enter') {
                 enviarMensagem(evento);
@@ -107,7 +119,8 @@ async function enviarMensagem(event) {
     const dadosMensagem = {
         remetenteId: remetenteId,
         destinatarioId: destinatarioId,
-        conteudo: conteudo
+        conteudo: conteudo,
+        tipo: 'TEXTO'
     };
 
     try {
@@ -161,19 +174,80 @@ function adicionarMensagemNaTela(mensagem) {
     const dataObj = new Date(mensagem.dataEnvio || Date.now()); 
     const horaFormatada = dataObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
+    let conteudoHTML;
+
+    const tipoMensagem = mensagem.tipo || 'TEXTO'; 
+
+    switch (tipoMensagem) {
+        case 'AUDIO':
+            conteudoHTML = `<audio controls src="${URL_BASE_DA_API}/${mensagem.conteudo}" class="chat-audio-player">Seu navegador não suporta áudio.</audio>`;
+            break;
+        case 'IMAGEM':
+            conteudoHTML = `<img src="${URL_BASE_DA_API}/${mensagem.conteudo}" class="chat-image-preview" alt="Imagem enviada">`;
+            break;
+        case 'ARQUIVO':
+            conteudoHTML = `<a href="${URL_BASE_DA_API}/${mensagem.conteudo}" target="_blank">Download: ${mensagem.conteudo.split('/').pop()}</a>`;
+            break;
+        case 'TEXTO':
+        default:
+            conteudoHTML = `<span class="conteudo">${mensagem.conteudo}</span>`;
+            break;
+    }
+
     divMensagem.innerHTML = `
-        <span class="conteudo">${mensagem.conteudo}</span>
+        ${conteudoHTML}
         <span class="hora">${horaFormatada}</span>
     `;
 
     areaMensagens.appendChild(divMensagem);
 }
 
+function determinarTipoMensagem(mimeType) {
+    if (mimeType.startsWith('image/')) return 'IMAGEM';
+    if (mimeType.startsWith('audio/')) return 'AUDIO';
+    return 'ARQUIVO';
+}
+
+async function enviarArquivo(arquivo) {
+    const token = sessionStorage.getItem('token'); 
+    const tipo = determinarTipoMensagem(arquivo.type); 
+
+    const formData = new FormData();
+    formData.append('remetenteId', remetenteId);
+    formData.append('destinatarioId', destinatarioId);
+    formData.append('arquivo', arquivo);
+    formData.append('tipo', tipo);
+
+    try {
+        botaoEnviar.disabled = true;
+        
+        const response = await fetch(`${URL_BASE_DA_API}/chat/upload`, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${token}` },
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error(`Falha no upload. Status: ${response.status}`);
+        }
+
+        const novaMensagem = await response.json();
+
+        adicionarMensagemNaTela(novaMensagem);
+        rolarParaBaixo();
+        
+    } catch (error) {
+        console.error('Erro ao enviar arquivo:', error);
+        alert(`Erro ao enviar arquivo: ${error.message}.`);
+    } finally {
+        botaoEnviar.disabled = false;
+        inputArquivo.value = '';
+    }
+}
+
 function rolarParaBaixo() {
     areaMensagens.scrollTop = areaMensagens.scrollHeight;
 }
-
-
 
 
 window.addEventListener('load', iniciarChatPrincipal);
