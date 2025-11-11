@@ -1,3 +1,4 @@
+/* GERAIS */
 body {
     font-family: 'Inter', sans-serif;
     background-color: #1a1a1a;
@@ -21,10 +22,11 @@ body {
     overflow: hidden;
     box-shadow: none;
 }
+
 /* CABEÇALHO */
 .chat-cabecalho {
     display: flex;
-    align-items: center; /* Alinhamento vertical central */
+    align-items: center; 
     padding: 15px 20px;
     background-color: #3b3b3b;
     color: white;
@@ -49,7 +51,8 @@ body {
     width: 30px;
     height: 30px;
 }
-.icone-perfil {
+/* Este ícone perfil deve ser usado apenas para elementos fixos, não para avatares do chat */
+.icone-perfil { 
     width: 60px;
     height: 60px;
     border-radius: 50%;
@@ -61,6 +64,7 @@ body {
     margin-right: 10px;
     white-space: nowrap;
 }
+
 /* GRUPO LOGO TÍTULO CENTRALIZADO */
 .grupo-central-topo {
     flex-grow: 1; 
@@ -77,13 +81,13 @@ body {
     width: 7vh; 
     height: 7vh;
     margin-bottom: 2px;
-    
 }
 .grupo-central-topo h1 {
     margin: 0;
     font-size: 1.2rem;
     line-height: 1; 
 }
+
 /* AREA DE MENSAGENS */
 .area-mensagens {
     flex-grow: 1;
@@ -91,9 +95,9 @@ body {
     overflow-y: auto; 
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    /* Reduzimos o gap de 10px para 5px, pois o container de mensagem já tem margem */
+    gap: 5px; 
 }
-
 .area-mensagens::-webkit-scrollbar {
     width: 8px;
 }
@@ -101,9 +105,39 @@ body {
     background-color: #555;
     border-radius: 4px;
 }
+
+/* 🔑 NOVO: CONTAINER QUE AGRUPA AVATAR E BOLHA */
+.mensagem-container {
+    display: flex;
+    margin-bottom: 5px; /* Adiciona espaço entre as conversas */
+    align-items: flex-end; /* Alinha o avatar com a base da bolha */
+}
+
+/* Mensagens Recebidas (Alinha o container à esquerda) */
+.mensagem-container.recebida {
+    justify-content: flex-start;
+}
+/* Mensagens Enviadas (Alinha o container à direita) */
+.mensagem-container.enviada {
+    justify-content: flex-end;
+}
+
+/* 🔑 NOVO: ESTILO DO AVATAR */
+.avatar-chat {
+    width: 35px; /* Tamanho do avatar no chat */
+    height: 35px;
+    border-radius: 50%;
+    margin: 0 5px; 
+    background-color: #aaa; /* Cor padrão */
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0; /* Impede que o avatar encolha */
+}
+
+
 /* ESTILO BOLHAS MENSAGEM */
 .bolha-mensagem {
-    max-width: 75%;
+    max-width: 65%; /* Reduzido para dar espaço ao avatar */
     padding: 10px 15px;
     border-radius: 15px;
     line-height: 1.4;
@@ -111,17 +145,26 @@ body {
     word-wrap: break-word;
     font-size: 0.95rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    /* Remove align-self para que o flexbox do .mensagem-container controle o alinhamento */
+    align-self: unset; 
 }
+
 .recebida {
     background-color: #D9D9D9; 
-    align-self: flex-start; 
     border-bottom-left-radius: 5px; 
 }
 .enviada {
     background-color: #FFC107; 
-    align-self: flex-end; 
     border-bottom-right-radius: 5px; 
 }
+
+/* 🔑 AJUSTE CRÍTICO: Removendo margens automáticas antigas */
+/* Para as bolhas dentro do .mensagem-container, não precisamos mais de align-self ou margem automática */
+.bolha-mensagem.recebida, .bolha-mensagem.enviada {
+    margin: 0;
+}
+
+
 /* ÁREA DE DIGITAÇÃO */
 .area-input {
     display: flex;
@@ -144,6 +187,7 @@ body {
 #input-mensagem:focus {
     box-shadow: 0 0 0 2px #007bff;
 }
+
 #botao-enviar {
     background-color: #007bff;
     border: none;
@@ -163,8 +207,6 @@ body {
     transform: scale(0.95);
 }
 
-
-
 #botao-anexar {
     background-color: #007bff;
     border: none;
@@ -176,6 +218,7 @@ body {
     align-items: center;
     cursor: pointer;
     transition: background-color 0.2s, transform 0.1s;
+    margin-right: 10px;
 }
 #botao-anexar:hover {
     background-color: #0056b3;

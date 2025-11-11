@@ -11,7 +11,14 @@ let botaoAnexar;
 
 let remetenteId;
 let destinatarioId;
-let destinatarioName; 
+let destinatarioName;
+
+// 🔑 NOVAS VARIÁVEIS PARA ARMAZENAR DADOS DO AVATAR
+let avatarRemetenteUrl = '';
+let avatarDestinatarioUrl = '';
+
+
+document.addEventListener('DOMContentLoaded', iniciarChatPrincipal);
 
 function iniciarChatPrincipal() {
     inputMensagem = document.getElementById('input-mensagem');
@@ -21,6 +28,10 @@ function iniciarChatPrincipal() {
     botaoAnexar = document.getElementById('botao-anexar');
 
     if (obterParametrosURL()) {
+        
+        // 🔑 1. BUSCAR AS FOTOS DE PERFIL ANTES DE INICIAR
+        carregarAvatares();
+        
         botaoEnviar.addEventListener('click', enviarMensagem);
         botaoAnexar.addEventListener('click', () => inputArquivo.click());
 
@@ -35,10 +46,53 @@ function iniciarChatPrincipal() {
             }
         });
 
+        // Inicia o carregamento e o polling
+        carregarHistorico();
         setInterval(carregarHistorico, 2000); 
     }
 }
 
+// 🔑 FUNÇÃO PARA CARREGAR OS AVATARES
+async function carregarAvatares() {
+    // Carrega o avatar do usuário logado (remetente) da sessão
+    avatarRemetenteUrl = obterAvatarDoRemetente();
+    
+    // Busca o avatar do destinatário no servidor
+    await buscarDadosDestinatario();
+}
+
+function obterAvatarDoRemetente() {
+    // Busca o caminho do avatar que foi salvo no Deslogar.js
+    const caminho = sessionStorage.getItem('userAvatarPath');
+    
+    // Se existir, retorna a URL completa, senão, retorna null para usar um ícone padrão.
+    return caminho ? `${URL_BASE_DA_API}/${caminho}` : null;
+}
+
+async function buscarDadosDestinatario() {
+    const token = sessionStorage.getItem('token');
+    
+    try {
+        // Assume que você tem uma rota para buscar um usuário pelo ID
+        const response = await fetch(`${URL_BASE_DA_API}/usuarios/perfil/${destinatarioId}`, {
+            method: 'GET',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        if (response.ok) {
+            const perfil = await response.json();
+            
+            // Assume que o objeto perfil tem o campo 'avatar'
+            if (perfil.avatar) {
+                avatarDestinatarioUrl = `${URL_BASE_DA_API}/${perfil.avatar}`;
+            }
+        } else {
+            console.warn("Não foi possível carregar o perfil do destinatário. Usando avatar padrão.");
+        }
+    } catch (error) {
+        console.error("Erro de rede ao buscar dados do destinatário:", error);
+    }
+}
 
 function obterParametrosURL() {
     const params = new URLSearchParams(window.location.search);
@@ -53,6 +107,10 @@ function obterParametrosURL() {
 
 
     if (destinatarioName) {
+        // 🔑 Atualiza o nome do destinatário na tela (se houver um elemento de cabeçalho)
+        const headerNome = document.getElementById('nome-destinatario');
+        if(headerNome) headerNome.textContent = destinatarioName;
+        
         document.title = `Chat com ${destinatarioName}`;
     }
 
@@ -155,6 +213,14 @@ async function enviarMensagem(event) {
 }
 
 function exibirMensagens(mensagens) {
+    // Verifica se houve alteração no número de mensagens ou na última mensagem,
+    // para evitar recarregar o DOM inteiro a cada 2 segundos se nada mudou.
+    const novaListaJson = JSON.stringify(mensagens);
+    if (areaMensagens.dataset.lastLoad === novaListaJson) {
+        return;
+    }
+    areaMensagens.dataset.lastLoad = novaListaJson;
+
     if (mensagens.length === 0) {
         areaMensagens.innerHTML = '<p class="info">Inicie uma nova conversa.</p>';
         return;
@@ -168,6 +234,28 @@ function exibirMensagens(mensagens) {
 function adicionarMensagemNaTela(mensagem) {
     const tipo = (mensagem.remetenteId === remetenteId) ? 'enviada' : 'recebida';
     
+    const divContainer = document.createElement('div');
+    divContainer.className = 'mensagem-container ' + tipo; // Novo container para avatar + bolha
+
+    // 🔑 DETERMINA A URL DO AVATAR
+    let avatarUrl;
+    if (tipo === 'enviada') {
+        avatarUrl = avatarRemetenteUrl;
+    } else {
+        avatarUrl = avatarDestinatarioUrl;
+    }
+
+    // 🔑 CRIA O ELEMENTO AVATAR
+    const divAvatar = document.createElement('div');
+    divAvatar.className = 'avatar-chat';
+    if (avatarUrl) {
+        divAvatar.style.backgroundImage = `url('${avatarUrl}')`;
+    } else {
+        // Se não tiver foto, usa um ícone/fundo padrão (seu CSS deve definir)
+        divAvatar.classList.add('avatar-default'); 
+    }
+
+    // CRIA A BOLHA DA MENSAGEM
     const divMensagem = document.createElement('div');
     divMensagem.className = 'bolha-mensagem ' + tipo;
     
@@ -175,7 +263,6 @@ function adicionarMensagemNaTela(mensagem) {
     const horaFormatada = dataObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
 
     let conteudoHTML;
-
     const tipoMensagem = mensagem.tipo || 'TEXTO'; 
 
     switch (tipoMensagem) {
@@ -199,7 +286,18 @@ function adicionarMensagemNaTela(mensagem) {
         <span class="hora">${horaFormatada}</span>
     `;
 
-    areaMensagens.appendChild(divMensagem);
+    // 🔑 MONTAGEM FINAL: Coloca o avatar ao lado da bolha
+    if (tipo === 'recebida') {
+        // Mensagem recebida: Avatar à esquerda, Bolha à direita
+        divContainer.appendChild(divAvatar);
+        divContainer.appendChild(divMensagem);
+    } else {
+        // Mensagem enviada: Bolha à esquerda, Avatar à direita
+        divContainer.appendChild(divMensagem);
+        divContainer.appendChild(divAvatar);
+    }
+
+    areaMensagens.appendChild(divContainer);
 }
 
 function determinarTipoMensagem(mimeType) {
@@ -246,8 +344,10 @@ async function enviarArquivo(arquivo) {
 }
 
 function rolarParaBaixo() {
-    areaMensagens.scrollTop = areaMensagens.scrollHeight;
+    // Verifica se o usuário está perto do fim para só rolar automaticamente
+    const estaPertoDoFim = areaMensagens.scrollHeight - areaMensagens.scrollTop < areaMensagens.clientHeight + 100;
+    
+    if (estaPertoDoFim || !historicoCarregadoInicialmente) {
+        areaMensagens.scrollTop = areaMensagens.scrollHeight;
+    }
 }
-
-
-window.addEventListener('load', iniciarChatPrincipal);
