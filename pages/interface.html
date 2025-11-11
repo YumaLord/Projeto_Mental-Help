@@ -1,47 +1,62 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mental_Help</title>
-    <link rel="stylesheet" href="../assets/styles/interface.css">
-    <script src="../assets/scripts/Deslogar.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mental_Help</title>
+    <link rel="stylesheet" href="../assets/styles/interface.css">
+    <script src="../assets/scripts/Deslogar.js"></script>
     <script src="../assets/scripts/verificarLogin.js"></script>
 </head>
 <body>
 
-    <header>
-        <div style="width: 65px; height: 70px;"></div>
-        <p>Mental Help</p>
+<header>
+    <div style="width: 65px; height: 70px;"></div>
+    <p>Mental Help</p>
 
-
-        <div onclick="showModal()" class="photo-profile">
-    <div class="card disable" id="modal-sair">
-                
-        <button onclick="deslogarUsuario()" class="botao-sair-modal">
-            <img src="../assets/img/sair.svg" alt="Ícone de Sair">
-            <span>Sair da Conta</span>
+    <div onclick="showModal()" class="photo-profile">
+        
+        <div class="card disable" id="modal-sair" 
+            onclick="event.stopPropagation()">
+            
+            <button onclick="deslogarUsuario()" class="botao-sair-modal">
+                <img src="../assets/img/sair.svg" alt="Ícone de Sair">
+                <span>Sair da Conta</span>
+            </button>
+<button 
+            type="button" 
+            class="botao-mudar-foto" 
+            onclick="document.getElementById('input-avatar').click(); closeModal();">
+            Mudar Foto de Perfil
         </button>
-                
-                <button onclick="closeModal()" class="botao-cancelar-modal">
-                    <span>Cancelar</span>
-                </button>
-                
-            </div>
-        </div>
 
-    </header>
+            <input 
+                type="file" 
+                id="input-avatar" 
+                accept="image/*" 
+                style="display: none;"
+            >
+                        
+            <button 
+                id="botao-cancelar" 
+                type="button" 
+                onclick="closeModal()">Cancelar</button>
+                        
+        </div>
+    </div>
 
-    <main>
-        <button><a class="botao" href="procurar_psicologo.html">Procurar psicólogo</a></button>
-        <br>
+</header>
 
-        <button><a class="botao" href="procurar_aluno.html">Procurar Aluno</a></button>
-        <br>
+    <main>
+        <button><a class="botao" href="procurar_psicologo.html">Procurar psicólogo</a></button>
+        <br>
+
+        <button><a class="botao" href="procurar_aluno.html">Procurar Aluno</a></button>
+        <br>
         
         <button><a class="botao" href="doacoes.html">Doação</a></button>
-    </main>
+    </main>
 
-    <aside></aside>
+
 </body>
 </html>
