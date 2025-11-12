@@ -1,48 +1,50 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MentalHelp - Chat</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MentalHelp - Chat</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/styles/Chat.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/styles/Chat.css">
 </head>
 <body>
-    
-    <main class="chat-principal">
-        <div class="chat-container">
-           
-            <div class="chat-cabecalho">
+    
+    <main class="chat-principal">
+        <div class="chat-container">
+            
+            <div class="chat-cabecalho">
                 <a href="interface.html" class="link-voltar" title="Voltar para Menu">
-                    <svg class="icone-voltar" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15.41 16.59L10.83 12L15.41 7.41L14 6L8 12L14 18L15.41 16.59Z" fill="white"/>
-                    </svg>
+                    <svg class="icone-voltar" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M15.41 16.59L10.83 12L15.41 7.41L14 6L8 12L14 18L15.41 16.59Z" fill="white"/>
+                    </svg>
                 </a>
                 
-                <img class="icone-perfil" src="../assets/img/Aluno exemplo.jpg" alt="Ícone de Perfil">
+                <!-- ID ADICIONADO AQUI para o JavaScript mudar a imagem -->
+                <img class="icone-perfil" id="avatar-destinatario" src="../assets/img/Aluno exemplo.jpg" alt="Ícone de Perfil">
                 
                 
-                <span class="chat-titulo">Nome do Aluno</span>
+                <!-- ID ADICIONADO AQUI para o JavaScript mudar o nome -->
+                <span class="chat-titulo" id="nome-destinatario">Nome do Aluno</span>
                 
                 <div class="grupo-central-topo">
                 
-                                        <img src="../assets/img/logo-mentalhelp.png" alt="Logo MentalHelp" class="logo-mentalhelp">
-                    
-                    <h1>MentalHelp</h1>
-                </div>
+                    <img src="../assets/img/logo-mentalhelp.png" alt="Logo MentalHelp" class="logo-mentalhelp">
+                    
+                    <h1>MentalHelp</h1>
+                </div>
             </div>
             
-                        <div class="area-mensagens" id="area-mensagens">
+                <div class="area-mensagens" id="area-mensagens">
             
             </div>
             
             <div class="area-input">
-                <input type="text" id="input-mensagem" placeholder="Digite..." autocomplete="off">
-                <button id="botao-enviar">
-                    <svg viewBox="0 0 24 24" fill="white" width="24px" height="24px"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-                </button>
+                <input type="text" id="input-mensagem" placeholder="Digite..." autocomplete="off">
+                <button id="botao-enviar">
+                    <svg viewBox="0 0 24 24" fill="white" width="24px" height="24px"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+                </button>
 <input 
         type="file" 
         id="input-arquivo" 
@@ -54,13 +56,13 @@
     </div>
 </div>
 
-    </main>
-    
-        <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script> 
-    
-    <script src="../assets/scripts/decode.js"></script>
-    
-    <script src="../assets/scripts/chat.js"></script> 
+    </main>
+    
+        <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script> 
+    
+    <script src="../assets/scripts/decode.js"></script>
+    
+    <script src="../assets/scripts/chat.js"></script> 
 
 </body>
 </html>

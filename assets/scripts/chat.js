@@ -11,6 +11,9 @@ let destinatarioName;
 let avatarRemetenteUrl = '';
 let avatarDestinatarioUrl = '';
 
+let nomeDestinatarioElement;
+let avatarDestinatarioElement;
+
 document.addEventListener('DOMContentLoaded', iniciarChatPrincipal);
 
 function iniciarChatPrincipal() {
@@ -19,8 +22,17 @@ function iniciarChatPrincipal() {
     botaoEnviar = document.getElementById('botao-enviar');
     areaMensagens = document.getElementById('area-mensagens');
     botaoAnexar = document.getElementById('botao-anexar');
+
+
+    nomeDestinatarioElement = document.getElementById('nome-destinatario');
+    avatarDestinatarioElement = document.getElementById('avatar-destinatario');
+
     if (obterParametrosURL()) {
-        carregarAvatares();
+        carregarAvatares().then(() => {
+            carregarHistorico();
+            setInterval(carregarHistorico, 2000); 
+        });
+        
         botaoEnviar.addEventListener('click', enviarMensagem);
         botaoAnexar.addEventListener('click', () => inputArquivo.click());
         inputArquivo.addEventListener('change', (e) => {
@@ -33,18 +45,9 @@ function iniciarChatPrincipal() {
                 enviarMensagem(evento);
             }
         });
-        if (destinatarioName) {
-        const headerNome = document.getElementById('nome-destinatario');
-        if(headerNome) headerNome.textContent = destinatarioName;
-        
-        document.title = `Chat com ${destinatarioName}`;
-    }
-        carregarHistorico();
-        setInterval(carregarHistorico, 2000); 
     }
 }
 
-// CARREGA OS AVATARES
 async function carregarAvatares() {
     avatarRemetenteUrl = obterAvatarDoRemetente();
     await buscarDadosDestinatario();
@@ -57,19 +60,46 @@ function obterAvatarDoRemetente() {
 
 async function buscarDadosDestinatario() {
     const token = sessionStorage.getItem('token');
-    
+    const avatarPadrao = '../assets/img/Aluno exemplo.jpg'; // Avatar de fallback
+
     try {
-        const response = await fetch(`${URL_BASE_DA_API}/usuarios/perfil/${destinatarioId}`, {
+        const response = await fetch(`${URL_BASE_DA_API}/usuario/perfil/${destinatarioId}`, {
             method: 'GET',
             headers: { 'Authorization': `Bearer ${token}` }
         });
+        
         if (response.ok) {
             const perfil = await response.json();
+            
+
+            destinatarioName = perfil.nome || perfil.apelido || 'Usuário Desconhecido';
+            
+            // ATUALIZA NOME CABEÇALHO 
+            if(nomeDestinatarioElement) {
+                nomeDestinatarioElement.textContent = destinatarioName;
+            }
+            document.title = `MentalHelp - Chat com ${destinatarioName}`;
+
             if (perfil.avatar) {
                 avatarDestinatarioUrl = `${URL_BASE_DA_API}/${perfil.avatar}`;
+                if(avatarDestinatarioElement) {
+                    avatarDestinatarioElement.src = avatarDestinatarioUrl;
+                }
+            } else {
+                 avatarDestinatarioUrl = avatarPadrao;
+                 if(avatarDestinatarioElement) {
+                    avatarDestinatarioElement.src = avatarPadrao;
+                }
             }
+            
         } else {
-            console.warn("Não foi possível carregar o perfil do destinatário. Usando avatar padrão.");
+            console.warn(`[DEBUG] Falha ao carregar perfil do ID ${destinatarioId}. Status: ${response.status}. Usando nome e avatar padrão.`);
+            destinatarioName = 'Usuário Desconhecido';
+            
+            if(nomeDestinatarioElement) nomeDestinatarioElement.textContent = destinatarioName;
+            if(avatarDestinatarioElement) avatarDestinatarioElement.src = avatarPadrao;
+
+            avatarDestinatarioUrl = avatarPadrao;
         }
     } catch (error) {
         console.error("Erro de rede ao buscar dados do destinatário:", error);
@@ -79,21 +109,14 @@ async function buscarDadosDestinatario() {
 function obterParametrosURL() {
     const params = new URLSearchParams(window.location.search);
     destinatarioId = parseInt(params.get('targetId'));
-    destinatarioName = params.get('targetName');
-    remetenteId = getRemetenteIdFromToken(); 
-    console.log(`DEBUG CHAT: Remetente ID lido do Token: ${remetenteId}`);
-    console.log(`DEBUG CHAT: Destinatário ID lido da URL: ${destinatarioId}`);
-    if (destinatarioName) {
-        const headerNome = document.getElementById('nome-destinatario');
-        if(headerNome) headerNome.textContent = destinatarioName; 
-        document.title = `Chat com ${destinatarioName}`;
-    }
-    if (!remetenteId) {
-        areaMensagens.innerHTML = '<p class="error">Erro: Não foi possível obter o ID do usuário logado (Token inválido ou ausente).</p>';
+    remetenteId = sessionStorage.getItem('userId');
+    
+    if (!remetenteId || !remetenteId.trim()) {
+        if(areaMensagens) areaMensagens.innerHTML = '<p class="error">Erro: Não foi possível obter o ID do usuário logado (Sessão inválida).</p>';
         return false;
     }
     if (isNaN(destinatarioId)) {
-        areaMensagens.innerHTML = '<p class="error">Erro: ID do destinatário inválido na URL.</p>';
+         if(areaMensagens) areaMensagens.innerHTML = '<p class="error">Erro: ID do destinatário inválido na URL.</p>';
         return false;
     }
     return true;
@@ -103,45 +126,53 @@ async function carregarHistorico() {
     if (!historicoCarregadoInicialmente) {
         areaMensagens.innerHTML = '<p class="loading">Carregando histórico de mensagens...</p>';
     }
-    const url = `${URL_BASE_DA_API}/chat/${remetenteId}/${destinatarioId}`;
+    
+    const url = `${URL_BASE_DA_API}/chat/${String(remetenteId)}/${String(destinatarioId)}`;
     const token = sessionStorage.getItem('token'); 
+    
     try {
         const response = await fetch(url, {
             method: 'GET',
             headers: { 'Authorization': `Bearer ${token}` }
         });
+        
         historicoCarregadoInicialmente = true; 
+        
         if (!response.ok) {
-            if (areaMensagens.children.length === 0) {
-                areaMensagens.innerHTML = '<p class="info">Inicie uma nova conversa.</p>';
+            if (areaMensagens.children.length === 0 || (areaMensagens.children.length === 1 && areaMensagens.querySelector('.loading'))) {
+                 areaMensagens.innerHTML = '<p class="info">Inicie uma nova conversa.</p>';
             }
             return;
         }
+        
         const mensagens = await response.json();
         exibirMensagens(mensagens); 
     } catch (error) {
         historicoCarregadoInicialmente = true; 
         
         console.error('Erro de rede ao carregar histórico:', error);
-        if (areaMensagens.children.length === 0) {
+        if (areaMensagens.children.length === 0 || areaMensagens.querySelector('.loading')) {
             areaMensagens.innerHTML = '<p class="error">Não foi possível conectar ao servidor.</p>';
         }
     }
 }
 
 async function enviarMensagem(event) {
-    if (event.preventDefault) {
+    if (event && event.preventDefault) {
         event.preventDefault();
     }
     const conteudo = inputMensagem.value.trim();
     if (!conteudo) return;
+    
     const token = sessionStorage.getItem('token'); 
+    
     const dadosMensagem = {
-        remetenteId: remetenteId,
+        remetenteId: parseInt(remetenteId),
         destinatarioId: destinatarioId,
         conteudo: conteudo,
         tipo: 'TEXTO'
     };
+    
     try {
         botaoEnviar.disabled = true;
         const response = await fetch(`${URL_BASE_DA_API}/chat/mensagem`, {
@@ -152,16 +183,16 @@ async function enviarMensagem(event) {
             },
             body: JSON.stringify(dadosMensagem)
         });
+        
         if (!response.ok) {
             throw new Error(`Falha ao enviar mensagem. Status: ${response.status}`);
         }
-        const novaMensagem = await response.json();
-        adicionarMensagemNaTela(novaMensagem);
+
+        carregarHistorico(); 
         inputMensagem.value = '';
         rolarParaBaixo();
     } catch (error) {
         console.error('Erro ao enviar mensagem:', error);
-        alert(`Erro ao enviar mensagem: ${error.message}. Verifique o console.`);
     } finally {
         botaoEnviar.disabled = false;
     }
@@ -169,23 +200,28 @@ async function enviarMensagem(event) {
 
 function exibirMensagens(mensagens) {
     const novaListaJson = JSON.stringify(mensagens);
+    
     if (areaMensagens.dataset.lastLoad === novaListaJson) {
         return;
     }
+    
     areaMensagens.dataset.lastLoad = novaListaJson;
+    
     if (mensagens.length === 0) {
         areaMensagens.innerHTML = '<p class="info">Inicie uma nova conversa.</p>';
         return;
     }
-    areaMensagens.innerHTML = '';
+    
+    areaMensagens.innerHTML = ''; 
     mensagens.forEach(adicionarMensagemNaTela);
     rolarParaBaixo();
 }
 
 function adicionarMensagemNaTela(mensagem) {
-    const tipo = (mensagem.remetenteId === remetenteId) ? 'enviada' : 'recebida';
+    const tipo = (mensagem.remetenteId === parseInt(remetenteId)) ? 'enviada' : 'recebida';
     const divContainer = document.createElement('div');
     divContainer.className = 'mensagem-container ' + tipo;
+    
     let avatarUrl;
     if (tipo === 'enviada') {
         avatarUrl = avatarRemetenteUrl;
@@ -193,7 +229,6 @@ function adicionarMensagemNaTela(mensagem) {
         avatarUrl = avatarDestinatarioUrl;
     }
 
-    // CRIA O  AVATAR
     const divAvatar = document.createElement('div');
     divAvatar.className = 'avatar-chat';
     if (avatarUrl) {
@@ -201,10 +236,13 @@ function adicionarMensagemNaTela(mensagem) {
     } else {
         divAvatar.classList.add('avatar-default'); 
     }
+    
     const divMensagem = document.createElement('div');
     divMensagem.className = 'bolha-mensagem ' + tipo;
+    
     const dataObj = new Date(mensagem.dataEnvio || Date.now()); 
     const horaFormatada = dataObj.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    
     let conteudoHTML;
     const tipoMensagem = mensagem.tipo || 'TEXTO'; 
 
@@ -216,17 +254,20 @@ function adicionarMensagemNaTela(mensagem) {
             conteudoHTML = `<img src="${URL_BASE_DA_API}/${mensagem.conteudo}" class="chat-image-preview" alt="Imagem enviada">`;
             break;
         case 'ARQUIVO':
-            conteudoHTML = `<a href="${URL_BASE_DA_API}/${mensagem.conteudo}" target="_blank">Download: ${mensagem.conteudo.split('/').pop()}</a>`;
+            const nomeArquivo = mensagem.nomeArquivo || mensagem.conteudo.split('/').pop() || 'arquivo';
+            conteudoHTML = `<a href="${URL_BASE_DA_API}/${mensagem.conteudo}" target="_blank">Download: ${nomeArquivo}</a>`;
             break;
         case 'TEXTO':
         default:
             conteudoHTML = `<span class="conteudo">${mensagem.conteudo}</span>`;
             break;
     }
+    
     divMensagem.innerHTML = `
         ${conteudoHTML}
         <span class="hora">${horaFormatada}</span>
     `;
+    
     if (tipo === 'recebida') {
         divContainer.appendChild(divAvatar);
         divContainer.appendChild(divMensagem);
@@ -234,6 +275,7 @@ function adicionarMensagemNaTela(mensagem) {
         divContainer.appendChild(divMensagem);
         divContainer.appendChild(divAvatar);
     }
+    
     areaMensagens.appendChild(divContainer);
 }
 
@@ -260,16 +302,15 @@ async function enviarArquivo(arquivo) {
             headers: { 'Authorization': `Bearer ${token}` },
             body: formData
         });
+        
         if (!response.ok) {
             throw new Error(`Falha no upload. Status: ${response.status}`);
         }
-        const novaMensagem = await response.json();
-
-        adicionarMensagemNaTela(novaMensagem);
+    
+        carregarHistorico(); 
         rolarParaBaixo();
     } catch (error) {
         console.error('Erro ao enviar arquivo:', error);
-        alert(`Erro ao enviar arquivo: ${error.message}.`);
     } finally {
         botaoEnviar.disabled = false;
         inputArquivo.value = '';
@@ -277,7 +318,7 @@ async function enviarArquivo(arquivo) {
 }
 
 function rolarParaBaixo() {
-    const estaPertoDoFim = areaMensagens.scrollHeight - areaMensagens.scrollTop < areaMensagens.clientHeight + 100;
+    const estaPertoDoFim = areaMensagens.scrollHeight - areaMensagens.scrollTop <= areaMensagens.clientHeight + 20; 
     if (estaPertoDoFim || !historicoCarregadoInicialmente) {
         areaMensagens.scrollTop = areaMensagens.scrollHeight;
     }

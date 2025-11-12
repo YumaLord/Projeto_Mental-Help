@@ -5,8 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mental_Help</title>
     <link rel="stylesheet" href="../assets/styles/interface.css">
-    <script src="../assets/scripts/Deslogar.js"></script>
-    <script src="../assets/scripts/verificarLogin.js"></script>
 </head>
 <body>
 
@@ -14,7 +12,7 @@
     <div style="width: 65px; height: 70px;"></div>
     <p>Mental Help</p>
 
-    <div onclick="showModal()" class="photo-profile">
+    <div id="perfil-avatar" onclick="showModal()" class="photo-profile">
         
         <div class="card disable" id="modal-sair" 
             onclick="event.stopPropagation()">
@@ -23,12 +21,12 @@
                 <img src="../assets/img/sair.svg" alt="Ícone de Sair">
                 <span>Sair da Conta</span>
             </button>
-<button 
-            type="button" 
-            class="botao-mudar-foto" 
-            onclick="document.getElementById('input-avatar').click(); closeModal();">
-            Mudar Foto de Perfil
-        </button>
+            <button 
+                type="button" 
+                class="botao-mudar-foto" 
+                onclick="document.getElementById('input-avatar').click(); closeModal();">
+                Mudar Foto de Perfil
+            </button>
 
             <input 
                 type="file" 
@@ -36,12 +34,12 @@
                 accept="image/*" 
                 style="display: none;"
             >
-                        
+                            
             <button 
                 id="botao-cancelar" 
                 type="button" 
                 onclick="closeModal()">Cancelar</button>
-                        
+                            
         </div>
     </div>
 
@@ -57,6 +55,8 @@
         <button><a class="botao" href="doacoes.html">Doação</a></button>
     </main>
 
+    <script src="../assets/scripts/Deslogar.js"></script>
+    <script src="../assets/scripts/verificarLogin.js"></script>
 
 </body>
 </html>

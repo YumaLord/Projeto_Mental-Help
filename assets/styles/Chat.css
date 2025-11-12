@@ -1,3 +1,5 @@
+/* ... (Seções Iniciais sem Alterações) ... */
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: #1a1a1a;
@@ -31,8 +33,6 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
-
-
 .link-voltar {
     margin-right: 15px;
     display: flex;
@@ -45,8 +45,6 @@ body {
 .link-voltar:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
-
-
 
 .icone-voltar {
     width: 30px;
@@ -65,7 +63,6 @@ body {
     margin-right: 10px;
     white-space: nowrap;
 }
-
 
 
 .grupo-central-topo {
@@ -98,7 +95,7 @@ body {
     overflow-y: auto; 
     display: flex;
     flex-direction: column;
-    gap: 5px; 
+    gap: 10px; /* Espaçamento entre bolhas */
 }
 .area-mensagens::-webkit-scrollbar {
     width: 8px;
@@ -108,12 +105,12 @@ body {
     border-radius: 4px;
 }
 
-
+/* --- ESTILOS DAS MENSAGENS (ESTILO WHATSAPP CORRIGIDO) --- */
 
 .mensagem-container {
     display: flex;
-    margin-bottom: 5px;
-    align-items: flex-end;
+    margin-bottom: 0; 
+    align-items: flex-end; /* Garante que o avatar e a bolha fiquem alinhados pela parte de baixo */
 }
 .mensagem-container.recebida {
     justify-content: flex-start;
@@ -121,7 +118,6 @@ body {
 .mensagem-container.enviada {
     justify-content: flex-end;
 }
-
 
 
 .avatar-chat {
@@ -143,32 +139,90 @@ body {
 }
 
 
-
+/* ESTILO GERAL DA BOLHA */
 .bolha-mensagem {
     max-width: 65%;
-    padding: 10px 15px;
-    border-radius: 15px;
+    padding: 8px 12px;
+
+    /* APLICA A LARGURA MÍNIMA AQUI PARA AMBOS OS LADOS */
+    width: max-content; 
+    
+    border-radius: 12px; 
+    
     line-height: 1.4;
     color: #1a1a1a;
+    /* REMOVIDO: background-color: yellow; (A cor deve ser definida por .enviada ou .recebida) */
     word-wrap: break-word;
     font-size: 0.95rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    align-self: unset; 
+    
+    display: flex; 
+    flex-direction: column; 
+    align-items: flex-start; 
 }
-.recebida {
-    background-color: #D9D9D9; 
-    border-bottom-left-radius: 5px; 
+
+/* SUAS MENSAGENS (AMARELAS) - ENVIADA */
+.bolha-mensagem.enviada { /* Use .bolha-mensagem.enviada para aplicar o background */
+    background-color: #FFC107; /* Amarelo */
+    color: #1a1a1a;
+    
+    /* Canto que toca o avatar é menos arredondado (o "bico") */
+    border-bottom-right-radius: 4px;
+
+    align-items: flex-end; 
+    text-align: right; 
 }
-.enviada {
-    background-color: #FFC107; 
-    border-bottom-right-radius: 5px; 
+
+
+/* MENSAGENS DO OUTRO USUÁRIO (CINZAS) - RECEBIDA */
+.bolha-mensagem.recebida { /* Use .bolha-mensagem.recebida para aplicar o background */
+    background-color: #D9D9D9; /* Cinza */
+    color: #1a1a1a;
+    
+    /* Canto que toca o avatar é menos arredondado (o "bico") */
+    border-bottom-left-radius: 4px; 
+
+    /* Alinha o conteúdo à esquerda dentro da bolha */
+    align-items: flex-start; 
+    text-align: left; 
+    
+    /* REMOVIDO: width: max-content; (Já movido para .bolha-mensagem) */
 }
+
+/* Estilo para a Hora */
+.hora {
+    font-size: 0.7rem; /* Tamanho da fonte menor */
+    color: #555; 
+    margin-top: 5px; 
+    opacity: 0.9;
+    align-self: flex-end; /* Garante que a hora fique no canto da bolha */
+}
+
+/* Estilos para o Conteúdo da Mensagem (Arquivos/Imagens) */
+.chat-image-preview {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 8px;
+    margin-bottom: 5px;
+}
+.chat-audio-player {
+    width: 200px;
+    margin-bottom: 5px;
+}
+a[href] {
+    color: #007bff;
+    text-decoration: underline;
+    word-break: break-all;
+}
+
+
+/* Classes não utilizadas diretamente na bolha */
 .bolha-mensagem.recebida, .bolha-mensagem.enviada {
     margin: 0;
 }
 
 
-
+/* --- Área de Input (Sem mudanças) --- */
 .area-input {
     display: flex;
     padding: 15px 20px;
@@ -190,9 +244,6 @@ body {
 #input-mensagem:focus {
     box-shadow: 0 0 0 2px #007bff;
 }
-
-
-
 #botao-enviar {
     background-color: #007bff;
     border: none;
