@@ -30,15 +30,15 @@ async function login(email, senha) {
   
   if( resposta.ok ) {
 
-    const json = await resposta.json()
+        const json = await resposta.json()
 
-    sessionStorage.setItem("token", json.token)
-    sessionStorage.setItem("userRole", json.tipo); 
-    
-    const tipoUsuario = json.tipo; 
-    
+        sessionStorage.setItem("token", json.token)
+        sessionStorage.setItem("userRole", json.tipo); 
+        sessionStorage.setItem("userId", json.userId || json.id); 
+        
+        const tipoUsuario = json.tipo;
     if (tipoUsuario === "ALUNO") {
-        alert("Login de aluno realizado com sucesso! Redirecionando para busca.");
+        alert("Login de aluno realizado com sucesso! Redirecionando para busca.");
         window.location.href = ROTA_ALUNO;
     } else if (tipoUsuario === "PSICOLOGO") {
         alert("Login de psicólogo realizado com sucesso! Redirecionando para a lista de alunos.");

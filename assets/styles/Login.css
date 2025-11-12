@@ -3,7 +3,6 @@
     padding: 0;
     box-sizing: border-box;
 }
-
 body {
     display: grid;
     grid-template-columns: 0px 1fr;
@@ -15,7 +14,6 @@ body {
     height: 100vh;
     margin: 0;
 }
-
 header {
     grid-area: header;
     background-color: rgb(44, 49, 47);
@@ -30,14 +28,12 @@ header {
     height: 100%;
     width: 100%;
 }
-
 aside {
     grid-area: aside;
     display: flex;
     background-color: brown;
     background-size: auto;
 }
-
 main {
     grid-area: conteudo;
     background-image: url(../img/Fundo-Mental.png);
@@ -51,6 +47,8 @@ main {
     color: rgb(228, 239, 248);
 }
 
+
+
 .voltar {
     height: 65px;
     width: 65px;
@@ -60,6 +58,9 @@ main {
 .voltar:hover {
     padding: 0%;
 }
+
+
+
 .perfil-icone svg {
     fill: #4b4b4b;
     height: 100px;
@@ -67,7 +68,6 @@ main {
 }
 
 
-/* Pro login formulario */
 
 .conteudo-centralizado {
     gap: 10px;
@@ -82,6 +82,9 @@ main {
 
     color: white;
 }
+
+
+
 .input-group {
     width: 100%;
     margin: 10px 0;
@@ -117,7 +120,6 @@ main {
 
 
 
-
 .text-links {
     margin-top: 20px;
 }
@@ -128,6 +130,8 @@ main {
     display: block;
     margin: 5px 0;
 }
+
+
 
 .Logar {
     border-radius: 10px;

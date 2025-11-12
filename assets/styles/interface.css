@@ -74,39 +74,37 @@ a {
     border-bottom: none;
 }
 
-/* 2. ESTILO DO AVATAR E POSICICAO DO CARTÃO */
+
+
 .photo-profile {
     height: 50px;
     width: 50px;
     border-radius: 100%;
-    background-image: url(../img/Driving\ in\ my\ car.jpeg); /* Foto de perfil */
+    background-image: url(../img/Driving\ in\ my\ car.jpeg);
     background-size: cover;
     background-position: center;
     position: relative;
     cursor: pointer;
 }
 
+
+
 .card {
-    
     position: absolute; 
-    top: 55px; /* Desce para ficar embaixo do photo-profile */
+    top: 55px;
     right: 5px;
-    
-    background-color: white; /* Fundo card*/
-    
-    /* Estilo de Borda e Sombra (Semelhante ao Google) */
+
+    background-color: white;
     border-radius: 20px;
-    box-shadow: 0 4px 12px rgba(34, 28, 28, 0.2); /* Sombra mais elegante */
     
+    box-shadow: 0 4px 12px rgba(34, 28, 28, 0.2);
     width: 280px;
     padding: 10px;
     z-index: 1000;
-    
     display: flex; 
     flex-direction: column; 
-    gap: 5px; /* Espaçamento itens */
+    gap: 5px;
 }
-
 .card button, .card label {
     border: none;
     padding: 10px 15px;
@@ -115,16 +113,17 @@ a {
     text-align: left;
     transition: background-color 0.2s;
     border-radius: 8px;
-    color: #333333; /* Cor do texto */
+    color: #333333;
     font-size: 16px;
     display: flex;
     align-items: center;
     width: 100%;
 }
-
 .card button:hover, .card label:hover {
-    background-color: #f0f0f0; /* Cor ao passar o mouse */
+    background-color: #f0f0f0;
 }
+
+
 
 .botao-sair-modal span {
     margin-left: 10px;

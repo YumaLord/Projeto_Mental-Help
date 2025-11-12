@@ -1,4 +1,3 @@
-/* GERAIS */
 body {
     font-family: 'Inter', sans-serif;
     background-color: #1a1a1a;
@@ -22,8 +21,6 @@ body {
     overflow: hidden;
     box-shadow: none;
 }
-
-/* CABEÇALHO */
 .chat-cabecalho {
     display: flex;
     align-items: center; 
@@ -34,7 +31,8 @@ body {
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
-/* ÍCONE VOLTAR */
+
+
 .link-voltar {
     margin-right: 15px;
     display: flex;
@@ -47,11 +45,13 @@ body {
 .link-voltar:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
+
+
+
 .icone-voltar {
     width: 30px;
     height: 30px;
 }
-/* Este ícone perfil deve ser usado apenas para elementos fixos, não para avatares do chat */
 .icone-perfil { 
     width: 60px;
     height: 60px;
@@ -59,13 +59,15 @@ body {
     margin-right: 15px;
 }
 
+
 .chat-titulo {
     font-size: 1.2rem;
     margin-right: 10px;
     white-space: nowrap;
 }
 
-/* GRUPO LOGO TÍTULO CENTRALIZADO */
+
+
 .grupo-central-topo {
     flex-grow: 1; 
     text-align: center; 
@@ -88,14 +90,14 @@ body {
     line-height: 1; 
 }
 
-/* AREA DE MENSAGENS */
+
+
 .area-mensagens {
     flex-grow: 1;
     padding: 20px;
     overflow-y: auto; 
     display: flex;
     flex-direction: column;
-    /* Reduzimos o gap de 10px para 5px, pois o container de mensagem já tem margem */
     gap: 5px; 
 }
 .area-mensagens::-webkit-scrollbar {
@@ -106,38 +108,44 @@ body {
     border-radius: 4px;
 }
 
-/* 🔑 NOVO: CONTAINER QUE AGRUPA AVATAR E BOLHA */
+
+
 .mensagem-container {
     display: flex;
-    margin-bottom: 5px; /* Adiciona espaço entre as conversas */
-    align-items: flex-end; /* Alinha o avatar com a base da bolha */
+    margin-bottom: 5px;
+    align-items: flex-end;
 }
-
-/* Mensagens Recebidas (Alinha o container à esquerda) */
 .mensagem-container.recebida {
     justify-content: flex-start;
 }
-/* Mensagens Enviadas (Alinha o container à direita) */
 .mensagem-container.enviada {
     justify-content: flex-end;
 }
 
-/* 🔑 NOVO: ESTILO DO AVATAR */
+
+
 .avatar-chat {
-    width: 35px; /* Tamanho do avatar no chat */
-    height: 35px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     margin: 0 5px; 
-    background-color: #aaa; /* Cor padrão */
+    background-color: #aaa;
     background-size: cover;
     background-position: center;
-    flex-shrink: 0; /* Impede que o avatar encolha */
+    flex-shrink: 0; 
+    
+    border: 2px solid #007bff;
+}
+.avatar-chat.avatar-default {
+    background-image: url('URL_DO_ICONE_DE_USUARIO_PADRAO.svg');
+    background-color: #777;
+    border: 2px solid transparent; 
 }
 
 
-/* ESTILO BOLHAS MENSAGEM */
+
 .bolha-mensagem {
-    max-width: 65%; /* Reduzido para dar espaço ao avatar */
+    max-width: 65%;
     padding: 10px 15px;
     border-radius: 15px;
     line-height: 1.4;
@@ -145,10 +153,8 @@ body {
     word-wrap: break-word;
     font-size: 0.95rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    /* Remove align-self para que o flexbox do .mensagem-container controle o alinhamento */
     align-self: unset; 
 }
-
 .recebida {
     background-color: #D9D9D9; 
     border-bottom-left-radius: 5px; 
@@ -157,15 +163,12 @@ body {
     background-color: #FFC107; 
     border-bottom-right-radius: 5px; 
 }
-
-/* 🔑 AJUSTE CRÍTICO: Removendo margens automáticas antigas */
-/* Para as bolhas dentro do .mensagem-container, não precisamos mais de align-self ou margem automática */
 .bolha-mensagem.recebida, .bolha-mensagem.enviada {
     margin: 0;
 }
 
 
-/* ÁREA DE DIGITAÇÃO */
+
 .area-input {
     display: flex;
     padding: 15px 20px;
@@ -188,6 +191,8 @@ body {
     box-shadow: 0 0 0 2px #007bff;
 }
 
+
+
 #botao-enviar {
     background-color: #007bff;
     border: none;
@@ -206,7 +211,6 @@ body {
 #botao-enviar:active {
     transform: scale(0.95);
 }
-
 #botao-anexar {
     background-color: #007bff;
     border: none;
