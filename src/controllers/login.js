@@ -45,4 +45,4 @@ rotaLogin.post("/login", async (req, res) => {
   }
 });
 
-module.exports = { rotaLogin };
+module.exports = rotaLogin;

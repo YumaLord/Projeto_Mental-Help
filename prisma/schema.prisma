@@ -1,32 +1,40 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// NOVO ENUM: Para diferenciar mensagens de texto, áudio, etc.
+enum TipoMensagem {
+  TEXTO
+  AUDIO
+  IMAGEM
+  ARQUIVO // Para documentos gerais (PDF, DOCX, etc.)
 }
 
 enum TipoUsuario {
-  ALUNO
-  PSICOLOGO
+  ALUNO
+  PSICOLOGO
 }
 
 model Usuario {
-  id        Int      @id @default(autoincrement())
-  nome      String
-  avatar    String?
-  idade     Int
-  email     String   @unique 
-  senha     String
-  apelido   String?
-  tipo      TipoUsuario @default(ALUNO) 
-  
-  chatsIniciado Chat[] @relation("ChatUser1")
-  chatsRecebido  Chat[] @relation("ChatUser2")
+  id              Int      @id @default(autoincrement())
+  nome            String
+  avatar          String?
+  idade           Int
+  email           String   @unique
+  senha           String
+  apelido         String?
+  tipo            TipoUsuario @default(ALUNO)
+  
+  chatsIniciado  Chat[] @relation("ChatUser1")
+  chatsRecebido   Chat[] @relation("ChatUser2")
   mensagensEnviadas Mensagem[] @relation("MensagemRemetente")
   
-  consulta  Consulta[]
+  consulta        Consulta[]
 }
 
 model Chat {
@@ -48,6 +56,9 @@ model Mensagem {
   conteudo    String
   dataEnvio   DateTime @default(now())
   
+  // 🔑 CAMPO ADICIONADO: Para identificar se o conteudo é texto, áudio, ou imagem
+  tipo        TipoMensagem @default(TEXTO) 
+  
   remetenteId Int
   remetente   Usuario @relation("MensagemRemetente", fields: [remetenteId], references: [id])
   
@@ -56,9 +67,9 @@ model Mensagem {
 }
 
 model Consulta {
-  id      Int   @id @default(autoincrement())
-  horario DateTime
-  data    DateTime
-  flag    String?
-  usuario Usuario[]
+  id      Int    @id @default(autoincrement())
+  horario DateTime
+  data    DateTime
+  flag    String?
+  usuario Usuario[]
 }

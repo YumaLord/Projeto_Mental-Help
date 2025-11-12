@@ -1,72 +1,71 @@
 const { Router } = require("express");
 const { db } = require("../db");
-// const { autenticarToken } = require('../middlewares/autenticarToken'); // Se você tiver o middleware de autenticação
+// const { autenticarToken } = require('../middlewares/autenticarToken');
 const rotasChat = Router();
 
-// ==========================================================
-// ROTA 1: POST /chat/mensagem
-// Salva uma nova mensagem no banco de dados.
-// Requer: remetenteId, destinatarioId, conteudo
-// ==========================================================
-// rotasChat.post("/chat/mensagem", autenticarToken, async (req, res) => {
+// ROTA POST: Garante que os IDs são inteiros antes de usar o Prisma
 rotasChat.post("/chat/mensagem", async (req, res) => {
-  // Removida a autenticação por enquanto
-  const { remetenteId, destinatarioId, conteudo } = req.body;
+  // Converte IDs para inteiros imediatamente
+  const remetenteId = parseInt(req.body.remetenteId);
+  const destinatarioId = parseInt(req.body.destinatarioId);
+  const { conteudo } = req.body;
 
-  if (!remetenteId || !destinatarioId || !conteudo) {
+  if (isNaN(remetenteId) || isNaN(destinatarioId) || !conteudo) {
     return res
       .status(400)
-      .json({ message: "Dados incompletos para enviar a mensagem." });
+      .json({ message: "Dados incompletos ou IDs inválidos." });
   }
 
   try {
-    // CRÍTICO: Encontrar ou criar o chat entre os dois usuários
-    // A ordem (A-B ou B-A) não importa para o Prisma encontrar o chat.
+    // Padroniza os IDs (userA = menor ID, userB = maior ID)
+    const userA = Math.min(remetenteId, destinatarioId);
+    const userB = Math.max(remetenteId, destinatarioId); // 🔑 AJUSTE CRÍTICO AQUI: Forçar a busca usando APENAS a ordem padronizada (userA, userB)
+
+    // Isso evita qualquer problema de inconsistência de ordenação de dados antigos.
     let chat = await db.chat.findFirst({
       where: {
         OR: [
-          { usuario1Id: remetenteId, usuario2Id: destinatarioId },
-          { usuario1Id: destinatarioId, usuario2Id: remetenteId },
+          { usuario1Id: userA, usuario2Id: userB },
+          { usuario1Id: userB, usuario2Id: userA }, // Mantém o OR para segurança
         ],
       },
     });
 
-    // Se o chat não existir, criamos um novo
     if (!chat) {
       chat = await db.chat.create({
         data: {
-          usuario1Id: remetenteId,
-          usuario2Id: destinatarioId,
+          // Cria o chat SEMPRE na ordem padronizada (userA, userB)
+          usuario1Id: userA,
+          usuario2Id: userB,
         },
       });
     }
+    // ... (restante do código da criação da mensagem permanece igual)
     const novaMensagem = await db.mensagem.create({
       data: {
         conteudo,
         remetenteId,
         chatId: chat.id,
+        dataEnvio: new Date(),
       },
     });
 
-    res.status(201).json(novaMensagem);
+    res.status(201).json({
+      ...novaMensagem,
+      dataEnvio: novaMensagem.dataEnvio.toISOString(),
+    });
   } catch (error) {
-    console.error("Erro ao enviar mensagem:", error);
+    console.error("Erro ao enviar mensagem:", error); // Se este erro persistir, o problema está na conexão ou schema do banco.
     res.status(500).json({ message: "Erro interno ao salvar a mensagem." });
   }
 });
 
-// ==========================================================
-// ROTA 2: GET /chat/:remetenteId/:destinatarioId
-// Carrega o histórico de mensagens entre dois usuários.
-// ==========================================================
-// rotasChat.get("/chat/:remetenteId/:destinatarioId", autenticarToken, async (req, res) => {
+// ROTA GET: Não precisa de alteração.
 rotasChat.get("/chat/:remetenteId/:destinatarioId", async (req, res) => {
-  // Removida a autenticação por enquanto
   const remetenteId = parseInt(req.params.remetenteId);
   const destinatarioId = parseInt(req.params.destinatarioId);
 
   try {
-    // Encontra o chat existente
     const chat = await db.chat.findFirst({
       where: {
         OR: [
@@ -79,6 +78,12 @@ rotasChat.get("/chat/:remetenteId/:destinatarioId", async (req, res) => {
           orderBy: {
             dataEnvio: "asc",
           },
+          select: {
+            id: true,
+            conteudo: true,
+            remetenteId: true,
+            dataEnvio: true,
+          },
         },
       },
     });
@@ -87,7 +92,12 @@ rotasChat.get("/chat/:remetenteId/:destinatarioId", async (req, res) => {
       return res.json([]);
     }
 
-    res.json(chat.mensagens);
+    const mensagensFormatadas = chat.mensagens.map((m) => ({
+      ...m,
+      dataEnvio: m.dataEnvio.toISOString(),
+    }));
+
+    res.json(mensagensFormatadas);
   } catch (error) {
     console.error("Erro ao carregar histórico:", error);
     res
@@ -96,4 +106,4 @@ rotasChat.get("/chat/:remetenteId/:destinatarioId", async (req, res) => {
   }
 });
 
-module.exports = { rotasChat };
+module.exports = rotasChat;
