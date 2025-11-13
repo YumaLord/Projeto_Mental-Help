@@ -97,7 +97,6 @@ async function enviarAvatar(arquivo) {
         const data = await response.json();
         console.log("Foto de perfil atualizada com sucesso!", data);
         
-        // Assume que a API retorna o novo caminho da foto no campo 'newAvatarPath' ou 'avatar'
         const novoCaminho = data.newAvatarPath || data.avatar;
 
         if (novoCaminho) {
@@ -112,27 +111,24 @@ async function enviarAvatar(arquivo) {
         console.error('Erro de rede ao enviar avatar:', error);
         alert('Erro de rede ao enviar avatar. Verifique sua conexão ou a URL da API.');
     } finally {
-        // Limpa o input file para permitir novo upload
+
+        // Limpa pra permitir upload
         const inputAvatar = document.getElementById('input-avatar');
         if (inputAvatar) inputAvatar.value = ''; 
     }
 }
 
-// --- Funções de Exibição de Avatar ---
-
 function atualizarFotoDePerfil(novoCaminho) {
     const urlCompleta = `${URL_BASE_DA_API}/${novoCaminho}`;
-    // Salva o novo caminho na sessão para que persista
+    //salva o novo caminho
     sessionStorage.setItem('userAvatarPath', novoCaminho); 
-    
-    // Atualiza o elemento de perfil na tela usando o ID 'perfil-avatar' do interface.html
+
     const fotoPrincipal = document.getElementById('perfil-avatar');
     if (fotoPrincipal) {
         fotoPrincipal.style.backgroundImage = `url('${urlCompleta}')`;
         fotoPrincipal.classList.add('has-avatar'); 
     }
 
-    // Recarrega a página para que o avatar seja exibido em todas as outras páginas
     window.location.reload(); 
 }
 
@@ -144,16 +140,14 @@ function carregarFotoDePerfilInicial() {
         let urlParaExibir = '';
         
         if (caminhoSalvo) {
-            // Se houver caminho salvo, usa o caminho da API
             urlParaExibir = `${URL_BASE_DA_API}/${caminhoSalvo}`;
             fotoPrincipal.classList.add('has-avatar');
         } else {
-            // Se não houver caminho salvo (novo login sem foto), usa o padrão
+
             urlParaExibir = AVATAR_PADRAO;
             fotoPrincipal.classList.remove('has-avatar');
         }
         
-        // Define o background-image, garantindo que o padrão seja carregado se o caminho estiver vazio/nulo
         fotoPrincipal.style.backgroundImage = `url('${urlParaExibir}')`;
     }
 }
