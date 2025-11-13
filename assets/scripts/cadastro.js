@@ -1,20 +1,18 @@
 const URL_BASE_DA_API = 'https://6w5tw6-3002.csb.app'; 
 
 const form = document.querySelector('form');
-const emailInput = document.getElementById('input-email'); // Usando ID
-const nomeInput = document.getElementById('input-nome');   // Usando ID
-const cpfInput = document.getElementById('input-cpf');     // NOVO CAMPO
+const emailInput = document.getElementById('input-email'); 
+const nomeInput = document.getElementById('input-nome');   
+const cpfInput = document.getElementById('input-cpf');     
 const senhaInput = document.getElementById('input-senha');
 const confirmarSenhaInput = document.getElementById('input-confirmar-senha');
-const tipoInput = document.getElementById('input-tipo'); // Usando ID
+const tipoInput = document.getElementById('input-tipo');
 
-// Adiciona a máscara de CPF ao carregar a página
 cpfInput.addEventListener('input', formatarCPF);
 
-// Função para formatar o CPF (máscara: 000.000.000-00)
 function formatarCPF(event) {
-    let value = event.target.value.replace(/\D/g, ""); // Remove tudo que não é dígito
-    value = value.substring(0, 11); // Limita a 11 dígitos
+    let value = event.target.value.replace(/\D/g, "");
+    value = value.substring(0, 11);
 
     if (value.length > 9) {
         value = value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
@@ -46,12 +44,10 @@ form.addEventListener('submit', async (e) => {
         alert('Por favor, insira um CPF válido com 11 dígitos.');
         return;
     }
-
-    // Incluído o campo 'cpf' no JSON de envio
     const userData = { 
         email, 
         nome, 
-        cpf, // <-- NOVO CAMPO CPF
+        cpf,
         senha, 
         avatar: "tomas", 
         idade: 18, 
@@ -60,7 +56,6 @@ form.addEventListener('submit', async (e) => {
     }; 
     
     try {
-        // Atenção: Seu endpoint é '/cadastro', e não '/usuario/cadastro'
         const response = await fetch(URL_BASE_DA_API + '/cadastro', { 
             method: 'POST',
             headers: {

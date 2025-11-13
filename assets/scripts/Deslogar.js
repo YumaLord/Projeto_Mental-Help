@@ -1,5 +1,5 @@
 const URL_BASE_DA_API = 'https://6w5tw6-3002.csb.app';
-const AVATAR_PADRAO = '../assets/img/Aluno exemplo.jpg'; 
+const AVATAR_PADRAO = '../assets/img/Avatar.png'; 
 
 function closeModal(){
     let modal = document.getElementById("modal-sair");

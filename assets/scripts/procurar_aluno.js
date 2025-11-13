@@ -18,7 +18,6 @@ async function carregarAlunos() {
     listaDiv.innerHTML = '<p>Carregando lista de alunos...</p>';
 
     try {
-        // ⬅️ CORREÇÃO: Removido o prefixo '/usuario' da URL
         const response = await fetch(`${URL_BASE_DA_API}/usuarios/${TIPO_BUSCADO}`, { 
             method: 'GET',
             headers: {
@@ -42,7 +41,7 @@ async function carregarAlunos() {
             return;
         }
 
-        // Exibe todos alunos inicialmente
+        // Exibe alunos
         renderizarLista(todosAlunos);
 
     } catch (error) {
@@ -65,7 +64,7 @@ function filtrarAlunos() {
         const nome = aluno.nome ? aluno.nome.toLowerCase() : '';
         const email = aluno.email ? aluno.email.toLowerCase() : '';
 
-        // Agora filtra apenas por nome ou email
+        // filtra por nome ou email
         return nome.includes(termo) || email.includes(termo);
     });
 

@@ -135,7 +135,7 @@ main {
     align-items: center;
     padding: 10px;
     margin-bottom: 8px;
-    background-color: #4b4b4b;
+    background-color: #4b4b4b; /* Cor de fundo para os itens */
     border-radius: 8px;
     color: white;
     justify-content: space-between;

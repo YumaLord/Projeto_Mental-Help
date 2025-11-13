@@ -60,12 +60,9 @@ function obterAvatarDoRemetente() {
 
 async function buscarDadosDestinatario() {
     const token = sessionStorage.getItem('token');
-    // ATENÇÃO: O caminho do avatar padrão parece ser um arquivo local,
-    // garantindo que ele exista no seu projeto: ../assets/img/Aluno exemplo.jpg
-    const avatarPadrao = '../assets/img/Aluno exemplo.jpg'; 
+    const avatarPadrao = '../assets/img/Avatar.png'; //Avatar padrao
 
     try {
-        // ⬅️ CORREÇÃO CRÍTICA: Removido o prefixo '/usuario' da URL
         const response = await fetch(`${URL_BASE_DA_API}/perfil/${destinatarioId}`, { 
             method: 'GET',
             headers: { 'Authorization': `Bearer ${token}` }
@@ -73,11 +70,10 @@ async function buscarDadosDestinatario() {
         
         if (response.ok) {
             const perfil = await response.json();
-            
-            // Prioriza nome, depois apelido, senão 'Usuário Desconhecido'
+            // Prioriza nome, senão 'Usuário Desconhecido'
             destinatarioName = perfil.nome || perfil.apelido || 'Usuário Desconhecido';
             
-            // ATUALIZA NOME CABEÇALHO 
+            // ATUALIZA NOME CABEÇALHO
             if(nomeDestinatarioElement) {
                 nomeDestinatarioElement.textContent = destinatarioName;
             }
@@ -96,7 +92,6 @@ async function buscarDadosDestinatario() {
             }
             
         } else {
-            // Logs o erro 404, mas continua com o padrão
             console.warn(`[DEBUG] Falha ao carregar perfil do ID ${destinatarioId}. Status: ${response.status}. Usando nome e avatar padrão.`);
             destinatarioName = 'Usuário Desconhecido';
             

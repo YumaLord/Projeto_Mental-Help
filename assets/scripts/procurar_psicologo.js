@@ -16,7 +16,6 @@ async function carregarPsicologos() {
     listaDiv.innerHTML = '<p>Carregando lista de psicólogos...</p>';
 
     try {
-        // ⬅️ CORREÇÃO: Removido o prefixo '/usuario' da URL
         const response = await fetch(URL_BASE_DA_API + '/usuarios/PSICOLOGO');
         
         if (!response.ok) {
@@ -40,7 +39,7 @@ async function carregarPsicologos() {
 }
 
 
-// Faz a busca localmente na lista
+// Faz busca na lista
 function filtrarPsicologos() {
     const termo = inputBusca.value.trim().toLowerCase().replace(/[.\-\/]/g, '');
 
@@ -60,7 +59,7 @@ function filtrarPsicologos() {
     renderizarLista(resultados);
 }
 
-// Exibe os itens na tela
+// Exibe itens tela
 function renderizarLista(psicologos) { 
     if (psicologos.length === 0) {
         listaDiv.innerHTML = '<p>Nenhum psicólogo encontrado com o termo de busca.</p>';
