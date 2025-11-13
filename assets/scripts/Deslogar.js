@@ -1,9 +1,5 @@
 const URL_BASE_DA_API = 'https://6w5tw6-3002.csb.app';
-// Definimos o caminho do avatar padrão aqui. 
-// Certifique-se de que este arquivo existe no seu projeto.
 const AVATAR_PADRAO = '../assets/img/Aluno exemplo.jpg'; 
-
-// --- Funções do Modal ---
 
 function closeModal(){
     let modal = document.getElementById("modal-sair");
@@ -20,21 +16,18 @@ function showModal(){
 }
 
 function deslogarUsuario() {
-    // IMPORTANTE: Limpa todos os dados da sessão
-    sessionStorage.clear(); 
+
+    sessionStorage.clear(); // limpa dados login
     
     closeModal();
 
-    // Redireciona para a página de login
     window.location.href = "Login-interface.html";
 }
-
-// --- Inicialização e Listeners ---
 
 document.addEventListener('DOMContentLoaded', () => {
     const inputAvatar = document.getElementById('input-avatar');
 
-    carregarFotoDePerfilInicial(); // Tenta carregar a foto salva
+    carregarFotoDePerfilInicial(); // carregar foto salva
     
     if (inputAvatar) {
         inputAvatar.addEventListener('change', (e) => {
@@ -46,13 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// --- Lógica de Upload ---
 
+//parte upload
 async function enviarAvatar(arquivo) {
     const token = sessionStorage.getItem('token'); 
     const userIdString = sessionStorage.getItem('userId'); 
     
-    // Converte userId para número. 
     const userId = parseInt(userIdString);
     
     if (isNaN(userId) || !token) {
@@ -64,14 +56,11 @@ async function enviarAvatar(arquivo) {
     }
 
     const formData = new FormData();
-    // MUDANÇA: Usando 'avatar' como nome do campo de arquivo (provável correção para 404/500)
     formData.append('avatar', arquivo); 
     
-    // Mensagem de feedback visual
     alert("Tentando enviar a foto de perfil. Aguarde...");
 
     try {
-        // ROTA USADA: /usuario/avatar (Servidor deve usar o ID do Token)
         const response = await fetch(`${URL_BASE_DA_API}/usuario/avatar`, {
             method: 'POST',
             headers: { 
@@ -112,7 +101,7 @@ async function enviarAvatar(arquivo) {
         alert('Erro de rede ao enviar avatar. Verifique sua conexão ou a URL da API.');
     } finally {
 
-        // Limpa pra permitir upload
+        // Limpa pra upload
         const inputAvatar = document.getElementById('input-avatar');
         if (inputAvatar) inputAvatar.value = ''; 
     }
@@ -120,7 +109,6 @@ async function enviarAvatar(arquivo) {
 
 function atualizarFotoDePerfil(novoCaminho) {
     const urlCompleta = `${URL_BASE_DA_API}/${novoCaminho}`;
-    //salva o novo caminho
     sessionStorage.setItem('userAvatarPath', novoCaminho); 
 
     const fotoPrincipal = document.getElementById('perfil-avatar');

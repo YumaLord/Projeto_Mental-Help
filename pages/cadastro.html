@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MentalHelp - Cadastro</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MentalHelp - Cadastro</title>
 
-<link rel="stylesheet" href="../assets/styles/Login.css">
+    <link rel="stylesheet" href="../assets/styles/Login.css">
 </head>
 <body style="background-color: rgb(44, 49, 47);">
-    
-    
-    
+    
     <aside>
         <div>
             <a href="interface.html">
@@ -29,21 +27,25 @@
 
         <form>
             <div class="input-group">
-                <input type="email" class="input-field" placeholder="Informe seu endereço de email" required>
+                <input type="email" id="input-email" class="input-field" placeholder="Informe seu endereço de email" required>
             </div>
             <div class="input-group">
-                <input type="text" class="input-field" placeholder="Insira seu nome" required>
+                <input type="text" id="input-nome" class="input-field" placeholder="Insira seu nome" required>
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="input-cpf" class="input-field" placeholder="Insira seu CPF (somente números)" required maxlength="14">
             </div>
             <div class="input-group">
-                <input type="password" class="input-field" placeholder="Crie uma senha forte" required>
+                <input type="password" id="input-senha" class="input-field" placeholder="Crie uma senha forte" required>
             </div>
             <div class="input-group">
-                <input type="password" class="input-field" placeholder="Repita a senha..." required>
+                <input type="password" id="input-confirmar-senha" class="input-field" placeholder="Repita a senha..." required>
             </div>
             
             <div class="input-group" style="padding: 0;">
-                <label for="tipo" style="color: white; margin-bottom: 5px; display: block;">Eu sou:</label>
-                <select id="tipo" name="tipo" required class="input-field" style="width: 100%; padding: 10px; box-sizing: border-box;"> 
+                <label for="input-tipo" style="color: white; margin-bottom: 5px; display: block;">Eu sou:</label>
+                <select id="input-tipo" name="tipo" required class="input-field" style="width: 100%; padding: 10px; box-sizing: border-box;"> 
                     <option value="">Selecione seu papel</option>
                     <option value="ALUNO">ALUNO</option>
                     <option value="PSICOLOGO">PSICOLOGO</option>

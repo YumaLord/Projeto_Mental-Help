@@ -3,45 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Procurar Aluno</title>
-    <link rel="stylesheet" href="../assets/styles/Style_Aluno_Interface.css">
-
+    <title>MentalHelp - Procurar Aluno</title>
+    
+    <link rel="stylesheet" href="../assets/styles/Login.css">
+    <link rel="stylesheet" href="../assets/styles/Procurar.css"> 
 </head>
-<body>
+<body style="background-color: rgb(44, 49, 47);">
 
     <header></header>
     <aside>
         <div>
             <a href="interface.html">
-                <a href="interface.html"><img class="voltar" src="../assets/img/Back.svg" alt="" title="Voltar"></a>
+                <img class="voltar" src="../assets/img/Back.svg" alt="Voltar" title="Voltar">
             </a>
         </div>
     </aside>
     
     <main>
         <div class="conteudo-centralizado">
-            <label for="busca">Encontre o(a) aluno(a):</label>
-            <input type="text" id="encontre" placeholder="Digite o nome do Aluno (a)">
-
-            <label for="cpf">Número do matrícula:</label>
-            <input type="text" id="matrícula" placeholder="Digite sua matrícula">
-
-            <div class="lista">
-                <div class="item">
-                    <div class="icone amarelo"></div>
-
-                    <span>Guilherme: #1405987209</span>
-                
-                </div>
-                <div class="item">
-                    <div class="icone vermelho"></div>
-                    <span>Alexandre: #1405129846</span>
-                </div>
-                <div class="item">
-                    <div class="icone laranja"></div>
-                    <span>Ricardo: #1405285603</span>
-                </div>
+            <h2>Encontre o(a) aluno(a):</h2> 
+            <div class="input-group">
+                <input type="text" id="input-nome-email" class="input-field" placeholder="Digite Nome ou E-mail">
             </div>
+
+            <div class="caixa-pesquisa">
+                <button id="botao-buscar" class="input-field cadastro-btn">Buscar</button>
+            </div>
+            
+            <div class="lista">
+                </div>
         </div>
     </main>
 <script src="../assets/scripts/procurar_aluno.js"></script>

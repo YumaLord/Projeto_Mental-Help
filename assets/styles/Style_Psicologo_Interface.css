@@ -97,10 +97,10 @@ main {
 }
 
 .icone {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 3px solid black;
+    padding: 5%;
+    border-radius: 100%;
+    border: 2px solid black;
+    background-size: cover;
 }
 .amarelo {
     background-color: #f5e663;
@@ -110,4 +110,42 @@ main {
 }
 .laranja {
     background-color: #d97b2a;
+}
+.caixa-pesquisa {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: center;
+}
+#botao-buscar {
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+#botao-buscar:hover {
+    background-color: #0056b3;
+}
+
+.lista .item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    margin-bottom: 8px;
+    background-color: #4b4b4b;
+    border-radius: 8px;
+    color: white;
+    justify-content: space-between;
+}
+.lista .item button {
+    background-color: #FFC107;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #1a1a1a;
+    font-weight: bold;
 }

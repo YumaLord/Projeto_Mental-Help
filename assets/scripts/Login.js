@@ -35,12 +35,10 @@ async function login(email, senha) {
         sessionStorage.setItem("token", json.token)
         sessionStorage.setItem("userRole", json.tipo); 
         sessionStorage.setItem("userId", json.userId || json.id); 
-        
-        // ✨ CORREÇÃO CRÍTICA AQUI: SALVAR O CAMINHO DO AVATAR ✨
+
         if (json.avatar) {
             sessionStorage.setItem("userAvatarPath", json.avatar);
         } else {
-            // Se o usuário não tiver foto, garantimos que o valor antigo seja removido
             sessionStorage.removeItem("userAvatarPath"); 
         }
         
