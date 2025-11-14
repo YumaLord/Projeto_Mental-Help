@@ -2,10 +2,8 @@ const { Router } = require("express");
 const { db } = require("../db");
 // const { autenticarToken } = require('../middlewares/autenticarToken');
 const rotasChat = Router();
-
-// ROTA POST: Garante que os IDs são inteiros antes de usar o Prisma
 rotasChat.post("/chat/mensagem", async (req, res) => {
-  // Converte IDs para inteiros imediatamente
+  // Converte IDs pra inteiro
   const remetenteId = parseInt(req.body.remetenteId);
   const destinatarioId = parseInt(req.body.destinatarioId);
   const { conteudo } = req.body;
@@ -17,16 +15,15 @@ rotasChat.post("/chat/mensagem", async (req, res) => {
   }
 
   try {
-    // Padroniza os IDs (userA = menor ID, userB = maior ID)
+    // IDs
     const userA = Math.min(remetenteId, destinatarioId);
-    const userB = Math.max(remetenteId, destinatarioId); // 🔑 AJUSTE CRÍTICO AQUI: Forçar a busca usando APENAS a ordem padronizada (userA, userB)
+    const userB = Math.max(remetenteId, destinatarioId);
 
-    // Isso evita qualquer problema de inconsistência de ordenação de dados antigos.
     let chat = await db.chat.findFirst({
       where: {
         OR: [
           { usuario1Id: userA, usuario2Id: userB },
-          { usuario1Id: userB, usuario2Id: userA }, // Mantém o OR para segurança
+          { usuario1Id: userB, usuario2Id: userA },
         ],
       },
     });
@@ -34,13 +31,13 @@ rotasChat.post("/chat/mensagem", async (req, res) => {
     if (!chat) {
       chat = await db.chat.create({
         data: {
-          // Cria o chat SEMPRE na ordem padronizada (userA, userB)
+          // Cria chat ordem (userA, userB)
           usuario1Id: userA,
           usuario2Id: userB,
         },
       });
     }
-    // ... (restante do código da criação da mensagem permanece igual)
+
     const novaMensagem = await db.mensagem.create({
       data: {
         conteudo,
@@ -55,12 +52,11 @@ rotasChat.post("/chat/mensagem", async (req, res) => {
       dataEnvio: novaMensagem.dataEnvio.toISOString(),
     });
   } catch (error) {
-    console.error("Erro ao enviar mensagem:", error); // Se este erro persistir, o problema está na conexão ou schema do banco.
+    console.error("Erro ao enviar mensagem:", error);
     res.status(500).json({ message: "Erro interno ao salvar a mensagem." });
   }
 });
 
-// ROTA GET: Não precisa de alteração.
 rotasChat.get("/chat/:remetenteId/:destinatarioId", async (req, res) => {
   const remetenteId = parseInt(req.params.remetenteId);
   const destinatarioId = parseInt(req.params.destinatarioId);

@@ -7,12 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// NOVO ENUM: Para diferenciar mensagens de texto, áudio, etc.
 enum TipoMensagem {
   TEXTO
   AUDIO
   IMAGEM
-  ARQUIVO // Para documentos gerais (PDF, DOCX, etc.)
+  ARQUIVO
 }
 
 enum TipoUsuario {
@@ -21,53 +20,53 @@ enum TipoUsuario {
 }
 
 model Usuario {
-  id              Int      @id @default(autoincrement())
+  id              Int         @id @default(autoincrement())
   nome            String
   avatar          String?
   idade           Int
-  email           String   @unique
+  email           String      @unique
+  // 🔑 CAMPO ADICIONADO: CPF
+  cpf             String      @unique
   senha           String
   apelido         String?
   tipo            TipoUsuario @default(ALUNO)
-  
-  chatsIniciado  Chat[] @relation("ChatUser1")
-  chatsRecebido   Chat[] @relation("ChatUser2")
+
+  chatsIniciado      Chat[] @relation("ChatUser1")
+  chatsRecebido     Chat[] @relation("ChatUser2")
   mensagensEnviadas Mensagem[] @relation("MensagemRemetente")
-  
-  consulta        Consulta[]
+
+  consulta Consulta[]
 }
 
 model Chat {
-  id          Int       @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   usuario1Id  Int
   usuario2Id  Int
-  dataCriacao DateTime  @default(now())
-  
-  usuario1    Usuario   @relation("ChatUser1", fields: [usuario1Id], references: [id])
-  usuario2    Usuario   @relation("ChatUser2", fields: [usuario2Id], references: [id])
-  
-  mensagens   Mensagem[]
-  
+  dataCriacao DateTime @default(now())
+
+  usuario1 Usuario @relation("ChatUser1", fields: [usuario1Id], references: [id])
+  usuario2 Usuario @relation("ChatUser2", fields: [usuario2Id], references: [id])
+
+  mensagens Mensagem[]
+
   @@unique([usuario1Id, usuario2Id])
 }
 
 model Mensagem {
-  id          Int      @id @default(autoincrement())
-  conteudo    String
-  dataEnvio   DateTime @default(now())
-  
-  // 🔑 CAMPO ADICIONADO: Para identificar se o conteudo é texto, áudio, ou imagem
-  tipo        TipoMensagem @default(TEXTO) 
-  
+  id        Int          @id @default(autoincrement())
+  conteudo  String
+  dataEnvio DateTime     @default(now())
+  tipo        TipoMensagem @default(TEXTO)
+
   remetenteId Int
-  remetente   Usuario @relation("MensagemRemetente", fields: [remetenteId], references: [id])
-  
-  chatId      Int
-  chat        Chat    @relation(fields: [chatId], references: [id])
+  remetente   Usuario      @relation("MensagemRemetente", fields: [remetenteId], references: [id])
+
+  chatId Int
+  chat   Chat         @relation(fields: [chatId], references: [id])
 }
 
 model Consulta {
-  id      Int    @id @default(autoincrement())
+  id      Int      @id @default(autoincrement())
   horario DateTime
   data    DateTime
   flag    String?

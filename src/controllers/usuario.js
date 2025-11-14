@@ -4,9 +4,9 @@ const bcrypt = require("bcryptjs");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+
 const rotasUsuario = Router();
 
-// --- CONFIGURAÇÃO MULTER COM CAMINHO ABSOLUTO E CRIAÇÃO FORÇADA ---
 const UPLOAD_DIR = path.join(process.cwd(), "uploads");
 
 if (!fs.existsSync(UPLOAD_DIR)) {
@@ -36,7 +36,7 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
 });
 
-// --- 1. ROTA DE UPLOAD DE AVATAR (JÁ CORRIGIDA) ---
+// ROTA D UPLOAD AVATAR
 rotasUsuario.post(
   "/avatar/:userId",
   (req, res, next) => {
@@ -53,12 +53,10 @@ rotasUsuario.post(
         if (err instanceof multer.MulterError) {
           return res.status(400).json({ error: "Erro no Multer: " + err.code });
         }
-        return res
-          .status(500)
-          .json({
-            error: "Erro interno ao salvar o arquivo.",
-            details: err.message,
-          });
+        return res.status(500).json({
+          error: "Erro interno ao salvar o arquivo.",
+          details: err.message,
+        });
       }
       if (req.file) {
         req.file.path = path.join("uploads", path.basename(req.file.path));
@@ -71,11 +69,9 @@ rotasUsuario.post(
 
     if (!req.file) {
       console.error("Arquivo ausente.");
-      return res
-        .status(400)
-        .json({
-          error: "Nenhum arquivo enviado ou falha desconhecida no upload.",
-        });
+      return res.status(400).json({
+        error: "Nenhum arquivo enviado ou falha desconhecida no upload.",
+      });
     }
     const filePath = req.file.path;
 
@@ -104,7 +100,7 @@ rotasUsuario.post(
   }
 );
 
-// --- 2. NOVA ROTA PARA BUSCAR PERFIL INDIVIDUAL (PARA O CHAT) ---
+//BUSCA PERFIL INDIVIDUAL CHAT
 rotasUsuario.get("/perfil/:id", async (req, res) => {
   const userId = Number(req.params.id);
 
@@ -129,7 +125,7 @@ rotasUsuario.get("/perfil/:id", async (req, res) => {
   }
 });
 
-// --- OUTRAS ROTAS (LISTAGEM DE USUÁRIOS) ---
+// LISTAGEM D USUÁRIOS
 rotasUsuario.get("/usuarios/:tipo", async (req, res) => {
   const { tipo } = req.params;
 
@@ -150,6 +146,7 @@ rotasUsuario.get("/usuarios/:tipo", async (req, res) => {
         avatar: true,
         apelido: true,
         email: true,
+        cpf: true,
         idade: true,
         tipo: true,
       },
@@ -163,14 +160,32 @@ rotasUsuario.get("/usuarios/:tipo", async (req, res) => {
 });
 
 rotasUsuario.post("/cadastro", async (req, res) => {
-  const { nome, avatar, idade, email, senha, apelido, tipo } = req.body;
-  if (!email || !nome || !senha || !tipo) {
+  const { nome, avatar, idade, email, senha, cpf, apelido, tipo } = req.body;
+
+  // Validação campos
+  if (!email || !nome || !senha || !cpf || !tipo) {
     return res.status(400).json({
-      message: "Todos os campos são obrigatórios, incluindo o tipo de usuário.",
+      message:
+        "Todos os campos (incluindo CPF e tipo de usuário) são obrigatórios.",
     });
   }
 
   try {
+    const usuarioExistente = await db.usuario.findFirst({
+      where: {
+        OR: [{ email: email }, { cpf: cpf }],
+      },
+    });
+
+    if (usuarioExistente) {
+      if (usuarioExistente.email === email) {
+        return res.status(409).json({ message: "E-mail já cadastrado." });
+      }
+      if (usuarioExistente.cpf === cpf) {
+        return res.status(409).json({ message: "CPF já cadastrado." });
+      }
+    }
+
     const salt = await bcrypt.genSalt(10);
     const senhaHash = await bcrypt.hash(senha, salt);
 
@@ -180,6 +195,7 @@ rotasUsuario.post("/cadastro", async (req, res) => {
         avatar: avatar || "default.jpg",
         idade: idade || 0,
         email,
+        cpf,
         senha: senhaHash,
         apelido: apelido || nome,
         tipo: tipo,
@@ -193,7 +209,7 @@ rotasUsuario.post("/cadastro", async (req, res) => {
   } catch (error) {
     console.error("Erro no cadastro:", error);
     if (error.code === "P2002") {
-      return res.status(409).json({ message: "E-mail já cadastrado." });
+      return res.status(409).json({ message: "E-mail ou CPF já cadastrado." });
     }
     res.status(500).json({ message: "Erro interno do servidor." });
   }

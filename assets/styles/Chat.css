@@ -129,7 +129,7 @@ body {
     border: 2px solid #007bff;
 }
 .avatar-chat.avatar-default {
-    background-image: url('URL_DO_ICONE_DE_USUARIO_PADRAO.svg');
+    background-image: url(../img/Avatar.png);
     background-color: #777;
     border: 2px solid transparent; 
 }

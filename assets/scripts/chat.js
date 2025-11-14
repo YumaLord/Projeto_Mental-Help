@@ -54,8 +54,11 @@ async function carregarAvatares() {
 }
 
 function obterAvatarDoRemetente() {
+
+    const AVATAR_PADRAO_PATH = '../assets/img/Avatar.png';
     const caminho = sessionStorage.getItem('userAvatarPath');
-    return caminho ? `${URL_BASE_DA_API}/${caminho}` : null;
+
+    return caminho ? `${URL_BASE_DA_API}/${caminho}` : AVATAR_PADRAO_PATH;
 }
 
 async function buscarDadosDestinatario() {
@@ -70,9 +73,7 @@ async function buscarDadosDestinatario() {
         
         if (response.ok) {
             const perfil = await response.json();
-            // Prioriza nome, senão 'Usuário Desconhecido'
             destinatarioName = perfil.nome || perfil.apelido || 'Usuário Desconhecido';
-            
             // ATUALIZA NOME CABEÇALHO
             if(nomeDestinatarioElement) {
                 nomeDestinatarioElement.textContent = destinatarioName;

@@ -12,7 +12,7 @@ server.use("/uploads", express.static("uploads"));
 server.use(cors());
 server.use(express.json());
 
-server.use("/usuario", rotasusuario);
+server.use(rotasusuario);
 server.use(rotaUpload);
 server.use(rotalogin);
 server.use(rotasChat);
