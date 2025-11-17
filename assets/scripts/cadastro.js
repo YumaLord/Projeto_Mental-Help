@@ -30,7 +30,7 @@ form.addEventListener('submit', async (e) => {
     
     const email = emailInput.value;
     const nome = nomeInput.value;
-    const cpf = cpfInput.value.replace(/\D/g, ""); // Remove a máscara para enviar APENAS os dígitos
+    const cpf = cpfInput.value.replace(/\D/g, ""); 
     const senha = senhaInput.value;
     const confirmarSenha = confirmarSenhaInput.value;
     const tipo = tipoInput.value;
@@ -44,13 +44,13 @@ form.addEventListener('submit', async (e) => {
         alert('Por favor, insira um CPF válido com 11 dígitos.');
         return;
     }
-    const userData = { 
-        email, 
-        nome, 
+    const userData = {
+        email,
+        nome,
         cpf,
-        senha, 
+        senha,
         avatar: "tomas", 
-        idade: 18, 
+        idade: 18,
         apelido: "to",
         tipo
     }; 
@@ -59,7 +59,7 @@ form.addEventListener('submit', async (e) => {
         const response = await fetch(URL_BASE_DA_API + '/cadastro', { 
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json',
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(userData),
         });

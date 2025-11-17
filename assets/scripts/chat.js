@@ -10,7 +10,6 @@ let destinatarioId;
 let destinatarioName;
 let avatarRemetenteUrl = '';
 let avatarDestinatarioUrl = '';
-
 let nomeDestinatarioElement;
 let avatarDestinatarioElement;
 
@@ -23,7 +22,7 @@ function iniciarChatPrincipal() {
     areaMensagens = document.getElementById('area-mensagens');
     botaoAnexar = document.getElementById('botao-anexar');
 
-
+    
     nomeDestinatarioElement = document.getElementById('nome-destinatario');
     avatarDestinatarioElement = document.getElementById('avatar-destinatario');
 
