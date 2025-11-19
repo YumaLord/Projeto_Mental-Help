@@ -35,6 +35,7 @@ rotaLogin.post("/login", async (req, res) => {
       token,
       tipo: usuario.tipo,
       userId: usuario.id,
+      avatar: usuario.avatar,
     });
   } catch (error) {
     console.error("Erro no Login:", error);

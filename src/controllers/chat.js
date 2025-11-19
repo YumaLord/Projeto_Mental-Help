@@ -31,7 +31,7 @@ rotasChat.post("/chat/mensagem", async (req, res) => {
     if (!chat) {
       chat = await db.chat.create({
         data: {
-          // Cria chat ordem (userA, userB)
+          // Cria chat ordem userA, userB
           usuario1Id: userA,
           usuario2Id: userB,
         },

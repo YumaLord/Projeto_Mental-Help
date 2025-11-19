@@ -25,7 +25,6 @@ model Usuario {
   avatar          String?
   idade           Int
   email           String      @unique
-  // 🔑 CAMPO ADICIONADO: CPF
   cpf             String      @unique
   senha           String
   apelido         String?
