@@ -17,17 +17,19 @@ function showModal(){
 
 function deslogarUsuario() {
 
-    sessionStorage.clear(); // limpa dados login
+    // Limpa dados de login e sessão
+    sessionStorage.clear(); 
     
     closeModal();
 
+    // Redireciona para a tela de login
     window.location.href = "Login-interface.html";
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     const inputAvatar = document.getElementById('input-avatar');
 
-    carregarFotoDePerfilInicial(); // carregar foto salva
+    carregarFotoDePerfilInicial(); // Carregar a foto salva, AQUI ESTÁ A CORREÇÃO
     
     if (inputAvatar) {
         inputAvatar.addEventListener('change', (e) => {
@@ -63,6 +65,7 @@ async function enviarAvatar(arquivo) {
     try {
         const response = await fetch(`${URL_BASE_DA_API}/usuario/avatar`, {
             method: 'POST',
+            // O Content-Type é definido automaticamente pelo FormData
             headers: { 
                 'Authorization': `Bearer ${token}` 
             },
@@ -75,9 +78,9 @@ async function enviarAvatar(arquivo) {
             
             let erroDetalhado = `Status: ${response.status}.`;
             if (response.status === 404) {
-                 erroDetalhado += " A rota de upload pode estar incorreta no servidor (Back-end)."
+                 erroDetalhado += " A rota de upload pode estar incorreta no Back-end";
             } else if (response.status === 500) {
-                 erroDetalhado += " O servidor teve um erro interno (Back-end). Verifique se o nome do campo é 'avatar'."
+                 erroDetalhado += "Erro interno do servidor.";
             }
             alert(`Erro ao atualizar foto: Falha no upload. ${erroDetalhado}`);
             return;
@@ -89,10 +92,12 @@ async function enviarAvatar(arquivo) {
         const novoCaminho = data.newAvatarPath || data.avatar;
 
         if (novoCaminho) {
+             // CORREÇÃO: Chama a função para atualizar a imagem na sessão e na tela
              atualizarFotoDePerfil(novoCaminho); 
              alert("Foto de perfil atualizada com sucesso!");
         } else {
-             console.warn("Upload bem-sucedido, mas o novo caminho do avatar não foi retornado pela API. Recarregando...");
+             // Se o servidor não retornar o caminho (o que não é ideal), recarrega
+             console.warn("Recarregando...");
              window.location.reload(); 
         }
 
@@ -101,15 +106,18 @@ async function enviarAvatar(arquivo) {
         alert('Erro de rede ao enviar avatar. Verifique sua conexão ou a URL da API.');
     } finally {
 
-        // Limpa pra upload
+        // Limpa o input após a tentativa de upload
         const inputAvatar = document.getElementById('input-avatar');
         if (inputAvatar) inputAvatar.value = ''; 
     }
 }
 
 function atualizarFotoDePerfil(novoCaminho) {
-    const urlCompleta = `${URL_BASE_DA_API}/${novoCaminho}`;
+    // CORREÇÃO: Salva o caminho (ex: "uploads/foto.jpg")
     sessionStorage.setItem('userAvatarPath', novoCaminho); 
+    
+    // CORREÇÃO: Constrói a URL COMPLETA para exibir a imagem
+    const urlCompleta = `${URL_BASE_DA_API}/${novoCaminho}`; 
 
     const fotoPrincipal = document.getElementById('perfil-avatar');
     if (fotoPrincipal) {
@@ -117,6 +125,7 @@ function atualizarFotoDePerfil(novoCaminho) {
         fotoPrincipal.classList.add('has-avatar'); 
     }
 
+    // Recarrega a página para garantir a atualização
     window.location.reload(); 
 }
 
@@ -128,14 +137,16 @@ function carregarFotoDePerfilInicial() {
         let urlParaExibir = '';
         
         if (caminhoSalvo) {
+            // CORREÇÃO PRINCIPAL: Constrói a URL COMPLETA para a foto customizada
             urlParaExibir = `${URL_BASE_DA_API}/${caminhoSalvo}`;
             fotoPrincipal.classList.add('has-avatar');
         } else {
-
+            // Se não houver caminho salvo, usa o avatar padrão local
             urlParaExibir = AVATAR_PADRAO;
             fotoPrincipal.classList.remove('has-avatar');
         }
         
+        // Aplica o background-image (seja a URL da API ou o caminho local)
         fotoPrincipal.style.backgroundImage = `url('${urlParaExibir}')`;
     }
 }

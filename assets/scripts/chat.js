@@ -53,16 +53,15 @@ async function carregarAvatares() {
 }
 
 function obterAvatarDoRemetente() {
-
     const AVATAR_PADRAO_PATH = '../assets/img/Avatar.png';
-    const caminho = sessionStorage.getItem('userAvatarPath');
+    const caminho = sessionStorage.getItem('userAvatarPath'); 
 
     return caminho ? `${URL_BASE_DA_API}/${caminho}` : AVATAR_PADRAO_PATH;
 }
 
 async function buscarDadosDestinatario() {
     const token = sessionStorage.getItem('token');
-    const avatarPadrao = '../assets/img/Avatar.png'; //Avatar padrao
+    const avatarPadrao = '../assets/img/Avatar.png'; // Avatar padrao
 
     try {
         const response = await fetch(`${URL_BASE_DA_API}/perfil/${destinatarioId}`, { 
@@ -230,11 +229,10 @@ function adicionarMensagemNaTela(mensagem) {
 
     const divAvatar = document.createElement('div');
     divAvatar.className = 'avatar-chat';
+
     if (avatarUrl) {
         divAvatar.style.backgroundImage = `url('${avatarUrl}')`;
-    } else {
-        divAvatar.classList.add('avatar-default'); 
-    }
+    } 
     
     const divMensagem = document.createElement('div');
     divMensagem.className = 'bolha-mensagem ' + tipo;

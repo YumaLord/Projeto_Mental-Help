@@ -1,9 +1,9 @@
 const URL_BASE_DA_API = 'https://6w5tw6-3002.csb.app'; 
 
 const form = document.querySelector('form');
-const emailInput = document.getElementById('input-email'); 
-const nomeInput = document.getElementById('input-nome');   
-const cpfInput = document.getElementById('input-cpf');     
+const emailInput = document.getElementById('input-email');
+const nomeInput = document.getElementById('input-nome');
+const cpfInput = document.getElementById('input-cpf');
 const senhaInput = document.getElementById('input-senha');
 const confirmarSenhaInput = document.getElementById('input-confirmar-senha');
 const tipoInput = document.getElementById('input-tipo');

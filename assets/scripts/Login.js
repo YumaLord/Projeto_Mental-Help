@@ -1,40 +1,40 @@
 const url = "https://6w5tw6-3002.csb.app"
 
-document.querySelector("form")
-  .addEventListener("submit", (event) => {
-    event.preventDefault()
-    const email = document.querySelector("#email").value
-    const senha = document.querySelector("#senha").value
-    
-    login(email, senha)
-})
-
-
+// Rotas de redirecionamento
 const ROTA_ALUNO = "procurar_psicologo.html";
 const ROTA_PSICOLOGO = "procurar_aluno.html";
+const ROTA_PADRAO = "interface.html";
 
+document.querySelector("form")
+  .addEventListener("submit", (event) => {
+    event.preventDefault()
+    const email = document.querySelector("#email").value
+    const senha = document.querySelector("#senha").value
+    
+    login(email, senha)
+})
 
 async function login(email, senha) {
-  console.log({ email, senha })
-  const resposta = await fetch(url + "/login", {
-    method: "POST",
-    body: JSON.stringify({
-      email,
-      senha
-    }),
-    headers: {
-      "Content-Type": "application/json"
-    }
-  })
+  console.log({ email, senha })
+  
+  try {
+      const resposta = await fetch(url + "/login", {
+        method: "POST",
+        body: JSON.stringify({
+          email,
+          senha
+        }),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
 
-  
-  if( resposta.ok ) {
-
-        const json = await resposta.json()
-
-        sessionStorage.setItem("token", json.token)
-        sessionStorage.setItem("userRole", json.tipo); 
-        sessionStorage.setItem("userId", json.userId || json.id); 
+      const json = await resposta.json()
+      
+      if( resposta.ok ) {
+        sessionStorage.setItem("token", json.token)
+        sessionStorage.setItem("userRole", json.tipo); 
+        sessionStorage.setItem("userId", json.userId || json.id); 
 
         if (json.avatar) {
             sessionStorage.setItem("userAvatarPath", json.avatar);
@@ -42,19 +42,26 @@ async function login(email, senha) {
             sessionStorage.removeItem("userAvatarPath"); 
         }
         
-        const tipoUsuario = json.tipo;
-    if (tipoUsuario === "ALUNO") {
-        alert("Login de aluno realizado com sucesso! Redirecionando para busca.");
-        window.location.href = ROTA_ALUNO;
-    } else if (tipoUsuario === "PSICOLOGO") {
-        alert("Login de psicólogo realizado com sucesso! Redirecionando para a lista de alunos.");
-        window.location.href = ROTA_PSICOLOGO;
-    } else {
-        alert("Tipo de usuário desconhecido. Redirecionando para interface padrão.");
-        window.location.href = "interface.html"; 
-    }
+        const tipoUsuario = json.tipo;
+        
+        if (tipoUsuario === "ALUNO") {
+            alert("Login de aluno realizado com sucesso! Redirecionando para busca.");
+            window.location.href = ROTA_ALUNO;
+        } else if (tipoUsuario === "PSICOLOGO") {
+            alert("Login de psicólogo realizado com sucesso! Redirecionando para a lista de alunos.");
+            window.location.href = ROTA_PSICOLOGO;
+        } else {
+            alert("Tipo de usuário desconhecido. Redirecionando para interface padrão.");
+            window.location.href = ROTA_PADRAO; 
+        }
 
-  } else {
-      alert("Falha no login. Verifique seu e-mail e senha.");
-  }
+      } else {
+          const mensagemErro = json.message || "Verifique seu e-mail e senha.";
+          alert(`Falha no login: ${mensagemErro}`);
+      }
+      
+  } catch (error) {
+      console.error("Erro de rede durante o login:", error);
+      alert("Não foi possível conectar ao servidor. Verifique sua conexão ou se a API está rodando.");
+  }
 }
