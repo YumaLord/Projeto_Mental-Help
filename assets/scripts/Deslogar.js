@@ -16,20 +16,17 @@ function showModal(){
 }
 
 function deslogarUsuario() {
-
     // Limpa dados de login e sessão
     sessionStorage.clear(); 
-    
     closeModal();
-
-    // Redireciona para a tela de login
+    // Redireciona para a tela de login0
     window.location.href = "Login-interface.html";
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     const inputAvatar = document.getElementById('input-avatar');
 
-    carregarFotoDePerfilInicial(); // Carregar a foto salva, AQUI ESTÁ A CORREÇÃO
+    carregarFotoDePerfilInicial(); // Carregar foto salva
     
     if (inputAvatar) {
         inputAvatar.addEventListener('change', (e) => {
@@ -65,7 +62,7 @@ async function enviarAvatar(arquivo) {
     try {
         const response = await fetch(`${URL_BASE_DA_API}/usuario/avatar`, {
             method: 'POST',
-            // O Content-Type é definido automaticamente pelo FormData
+            // O Content-Type e auto definido pelo FormData
             headers: { 
                 'Authorization': `Bearer ${token}` 
             },
@@ -92,11 +89,11 @@ async function enviarAvatar(arquivo) {
         const novoCaminho = data.newAvatarPath || data.avatar;
 
         if (novoCaminho) {
-             // CORREÇÃO: Chama a função para atualizar a imagem na sessão e na tela
-             atualizarFotoDePerfil(novoCaminho); 
+             // Chama função pra atualizar a imagem nas telas
+             atualizarFotoDePerfil(novoCaminho);
              alert("Foto de perfil atualizada com sucesso!");
         } else {
-             // Se o servidor não retornar o caminho (o que não é ideal), recarrega
+             // Se o servidor não retornar o caminho
              console.warn("Recarregando...");
              window.location.reload(); 
         }
@@ -106,17 +103,17 @@ async function enviarAvatar(arquivo) {
         alert('Erro de rede ao enviar avatar. Verifique sua conexão ou a URL da API.');
     } finally {
 
-        // Limpa o input após a tentativa de upload
+        // Limpa input após upload
         const inputAvatar = document.getElementById('input-avatar');
         if (inputAvatar) inputAvatar.value = ''; 
     }
 }
 
 function atualizarFotoDePerfil(novoCaminho) {
-    // CORREÇÃO: Salva o caminho (ex: "uploads/foto.jpg")
+    // Salva o caminho tipo "uploads/foto.jpg"
     sessionStorage.setItem('userAvatarPath', novoCaminho); 
     
-    // CORREÇÃO: Constrói a URL COMPLETA para exibir a imagem
+    // exibir a imagem
     const urlCompleta = `${URL_BASE_DA_API}/${novoCaminho}`; 
 
     const fotoPrincipal = document.getElementById('perfil-avatar');
@@ -125,7 +122,7 @@ function atualizarFotoDePerfil(novoCaminho) {
         fotoPrincipal.classList.add('has-avatar'); 
     }
 
-    // Recarrega a página para garantir a atualização
+    // Recarrega a página
     window.location.reload(); 
 }
 
@@ -137,11 +134,10 @@ function carregarFotoDePerfilInicial() {
         let urlParaExibir = '';
         
         if (caminhoSalvo) {
-            // CORREÇÃO PRINCIPAL: Constrói a URL COMPLETA para a foto customizada
+            // Constrói URL para a foto customizada
             urlParaExibir = `${URL_BASE_DA_API}/${caminhoSalvo}`;
             fotoPrincipal.classList.add('has-avatar');
         } else {
-            // Se não houver caminho salvo, usa o avatar padrão local
             urlParaExibir = AVATAR_PADRAO;
             fotoPrincipal.classList.remove('has-avatar');
         }

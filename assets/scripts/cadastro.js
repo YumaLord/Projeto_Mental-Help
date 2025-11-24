@@ -28,12 +28,12 @@ function formatarCPF(event) {
 form.addEventListener('submit', async (e) => {
     e.preventDefault(); 
     
-    const email = emailInput.value;
-    const nome = nomeInput.value;
+    const email = emailInput.value;
+    const nome = nomeInput.value;
     const cpf = cpfInput.value.replace(/\D/g, ""); 
-    const senha = senhaInput.value;
-    const confirmarSenha = confirmarSenhaInput.value;
-    const tipo = tipoInput.value;
+    const senha = senhaInput.value;
+    const confirmarSenha = confirmarSenhaInput.value;
+    const tipo = tipoInput.value;
 
     if (senha !== confirmarSenha) {
         alert('As senhas não coincidem');
