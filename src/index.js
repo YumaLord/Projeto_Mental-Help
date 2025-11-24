@@ -17,4 +17,4 @@ server.use(rotaUpload);
 server.use(rotalogin);
 server.use(rotasChat);
 
-server.listen(3002, () => console.log("Rodando na porta 3002."));
+server.listen(3002, () => console.log("Rodando na porta 3002"));
