@@ -1,62 +1,63 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mental_Help</title>
-    <link rel="stylesheet" href="../assets/styles/interface.css">
-</head>
-<body>
+    <link rel="stylesheet" href="/styles/interface.css" />
+  </head>
+  <body>
+    <header>
+      <div style="width: 65px; height: 70px"></div>
+      <p>Mental Help</p>
 
-<header>
-    <div style="width: 65px; height: 70px;"></div>
-    <p>Mental Help</p>
+      <div id="perfil-avatar" onclick="showModal()" class="photo-profile">
+        <div
+          class="card disable"
+          id="modal-sair"
+          onclick="event.stopPropagation()"
+        >
+          <button onclick="deslogarUsuario()" class="botao-sair-modal">
+            <img src="/img/sair.svg" alt="Ícone de Sair" />
+            <span>Sair da Conta</span>
+          </button>
+          <button
+            type="button"
+            class="botao-mudar-foto"
+            onclick="document.getElementById('input-avatar').click(); closeModal();"
+          >
+            Mudar Foto de Perfil
+          </button>
 
-    <div id="perfil-avatar" onclick="showModal()" class="photo-profile">
-        
-        <div class="card disable" id="modal-sair" 
-            onclick="event.stopPropagation()">
-            
-            <button onclick="deslogarUsuario()" class="botao-sair-modal">
-                <img src="../assets/img/sair.svg" alt="Ícone de Sair">
-                <span>Sair da Conta</span>
-            </button>
-            <button 
-                type="button" 
-                class="botao-mudar-foto" 
-                onclick="document.getElementById('input-avatar').click(); closeModal();">
-                Mudar Foto de Perfil
-            </button>
+          <input
+            type="file"
+            id="input-avatar"
+            accept="image/*"
+            style="display: none"
+          />
 
-            <input 
-                type="file" 
-                id="input-avatar" 
-                accept="image/*" 
-                style="display: none;"
-            >
-                            
-            <button 
-                id="botao-cancelar" 
-                type="button" 
-                onclick="closeModal()">Cancelar</button>
-                            
+          <button id="botao-cancelar" type="button" onclick="closeModal()">
+            Cancelar
+          </button>
         </div>
-    </div>
-
-</header>
+      </div>
+    </header>
 
     <main>
-        <button><a class="botao" href="procurar_psicologo.html">Procurar psicólogo</a></button>
-        <br>
+      <button>
+        <a class="botao" href="/procurar_psicologo">Procurar psicólogo</a>
+      </button>
+      <br />
 
-        <button><a class="botao" href="procurar_aluno.html">Procurar Aluno</a></button>
-        <br>
-        
-        <button><a class="botao" href="doacoes.html">Doação</a></button>
+      <button>
+        <a class="botao" href="/procurar_aluno">Procurar Aluno</a>
+      </button>
+      <br />
+
+      <button><a class="botao" href="/doacoes">Doação</a></button>
     </main>
 
-    <script src="../assets/scripts/Deslogar.js"></script>
-    <script src="../assets/scripts/verificarLogin.js"></script>
-
-</body>
+    <script src="/scripts/Deslogar.js"></script>
+    <script src="/scripts/verificarLogin.js"></script>
+  </body>
 </html>

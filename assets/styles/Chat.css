@@ -1,270 +1,252 @@
 body {
-    font-family: 'Inter', sans-serif;
-    background-color: #1a1a1a;
-    margin: 0;
+  font-family: "Inter", sans-serif;
+  background-color: #1a1a1a;
+  margin: 0;
 }
 
 .chat-principal {
-    display: flex;
-    justify-content: flex-start;
-    align-items: stretch;
-    min-height: 100vh;
-    padding: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  min-height: 100vh;
+  padding: 0;
 }
 .chat-container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background-color: #2e2e2e; 
-    border-radius: 0;
-    overflow: hidden;
-    box-shadow: none;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #2e2e2e;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: none;
 }
 .chat-cabecalho {
-    display: flex;
-    align-items: center; 
-    padding: 15px 20px;
-    background-color: #3b3b3b;
-    color: white;
-    font-weight: bold;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #3b3b3b;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .link-voltar {
-    margin-right: 15px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 50%;
-    transition: background-color 0.2s;
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  transition: background-color 0.2s;
 }
 .link-voltar:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .icone-voltar {
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
 }
-.icone-perfil { 
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    margin-right: 15px;
+.icone-perfil {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 15px;
 }
-
 
 .chat-titulo {
-    font-size: 1.2rem;
-    margin-right: 10px;
-    white-space: nowrap;
+  font-size: 1.2rem;
+  margin-right: 10px;
+  white-space: nowrap;
 }
-
 
 .grupo-central-topo {
-    flex-grow: 1; 
-    text-align: center; 
-    margin-right: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    align-self: flex-start; 
-    padding-top: 5px; 
+  flex-grow: 1;
+  text-align: center;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  padding-top: 5px;
 }
 .logo-mentalhelp {
-    width: 7vh; 
-    height: 7vh;
-    margin-bottom: 2px;
+  width: 7vh;
+  height: 7vh;
+  margin-bottom: 2px;
 }
 .grupo-central-topo h1 {
-    margin: 0;
-    font-size: 1.2rem;
-    line-height: 1; 
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1;
 }
-
-
 
 .area-mensagens {
-    flex-grow: 1;
-    padding: 20px;
-    overflow-y: auto; 
-    display: flex;
-    flex-direction: column;
-    gap: 10px; /* Espaçamento bolhas */
+  flex-grow: 1;
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Espaçamento bolhas */
 }
 .area-mensagens::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 .area-mensagens::-webkit-scrollbar-thumb {
-    background-color: #555;
-    border-radius: 4px;
+  background-color: #555;
+  border-radius: 4px;
 }
 
 .mensagem-container {
-    display: flex;
-    margin-bottom: 0; 
-    align-items: flex-end; /* avatar e bolha alinhados baixo */
+  display: flex;
+  margin-bottom: 0;
+  align-items: flex-end; /* avatar e bolha alinhados baixo */
 }
 .mensagem-container.recebida {
-    justify-content: flex-start;
+  justify-content: flex-start;
 }
 .mensagem-container.enviada {
-    justify-content: flex-end;
+  justify-content: flex-end;
 }
-
 
 .avatar-chat {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin: 0 5px; 
-    background-color: #aaa;
-    background-size: cover;
-    background-position: center;
-    flex-shrink: 0; 
-    
-    border: 2px solid #007bff;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 0 5px;
+  background-color: #aaa;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+
+  border: 2px solid #007bff;
 }
 .avatar-chat.avatar-default {
-    background-image: url(../img/Avatar.png);
-    background-color: #777;
-    border: 2px solid transparent; 
+  background-image: url("/assets/img/Avatar.png");
+  background-color: #777;
+  border: 2px solid transparent;
 }
-
-
 
 .bolha-mensagem {
-    max-width: 65%;
-    padding: 8px 12px;
-    width: max-content; 
-    border-radius: 12px; 
-    line-height: 1.4;
-    color: #1a1a1a;
-    word-wrap: break-word;
-    font-size: 0.95rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    
-    display: flex; 
-    flex-direction: column; 
-    align-items: flex-start; 
-}
+  max-width: 65%;
+  padding: 8px 12px;
+  width: max-content;
+  border-radius: 12px;
+  line-height: 1.4;
+  color: #1a1a1a;
+  word-wrap: break-word;
+  font-size: 0.95rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
 
 .bolha-mensagem.enviada {
-    background-color: #FFC107;
-    color: #1a1a1a;
-    border-bottom-right-radius: 4px;
-    align-items: flex-end; 
-    text-align: right; 
+  background-color: #ffc107;
+  color: #1a1a1a;
+  border-bottom-right-radius: 4px;
+  align-items: flex-end;
+  text-align: right;
 }
-
 
 .bolha-mensagem.recebida {
-    background-color: #D9D9D9;
-    color: #1a1a1a;
-    border-bottom-left-radius: 4px; 
-    /* Alinha a esquerda dentro bolha */
-    align-items: flex-start; 
-    text-align: left; 
+  background-color: #d9d9d9;
+  color: #1a1a1a;
+  border-bottom-left-radius: 4px;
+  /* Alinha a esquerda dentro bolha */
+  align-items: flex-start;
+  text-align: left;
 }
-
-
 
 .hora {
-    font-size: 0.7rem;
-    color: #555; 
-    margin-top: 5px; 
-    opacity: 0.9;
-    align-self: flex-end; /* fica canto da bolha */
+  font-size: 0.7rem;
+  color: #555;
+  margin-top: 5px;
+  opacity: 0.9;
+  align-self: flex-end; /* fica canto da bolha */
 }
-
-
 
 .chat-image-preview {
-    max-width: 100%;
-    max-height: 200px;
-    border-radius: 8px;
-    margin-bottom: 5px;
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+  margin-bottom: 5px;
 }
 .chat-audio-player {
-    width: 200px;
-    margin-bottom: 5px;
+  width: 200px;
+  margin-bottom: 5px;
 }
-
-
 
 a[href] {
-    color: #007bff;
-    text-decoration: underline;
-    word-break: break-all;
+  color: #007bff;
+  text-decoration: underline;
+  word-break: break-all;
 }
 
-
-
-.bolha-mensagem.recebida, .bolha-mensagem.enviada {
-    margin: 0;
+.bolha-mensagem.recebida,
+.bolha-mensagem.enviada {
+  margin: 0;
 }
-
-
 
 .area-input {
-    display: flex;
-    padding: 15px 20px;
-    background-color: #3b3b3b; 
-    border-top: 1px solid #555;
+  display: flex;
+  padding: 15px 20px;
+  background-color: #3b3b3b;
+  border-top: 1px solid #555;
 }
 #input-mensagem {
-    flex-grow: 1;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 25px;
-    margin-right: 10px;
-    background-color: #4b4b4b; 
-    color: white;
-    outline: none;
-    font-size: 1rem;
-    transition: box-shadow 0.2s;
+  flex-grow: 1;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 25px;
+  margin-right: 10px;
+  background-color: #4b4b4b;
+  color: white;
+  outline: none;
+  font-size: 1rem;
+  transition: box-shadow 0.2s;
 }
 #input-mensagem:focus {
-    box-shadow: 0 0 0 2px #007bff;
+  box-shadow: 0 0 0 2px #007bff;
 }
 #botao-enviar {
-    background-color: #007bff;
-    border: none;
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
+  background-color: #007bff;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
 }
 #botao-enviar:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 #botao-enviar:active {
-    transform: scale(0.95);
+  transform: scale(0.95);
 }
 #botao-anexar {
-    background-color: #007bff;
-    border: none;
-    border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    transition: background-color 0.2s, transform 0.1s;
-    margin-right: 10px;
+  background-color: #007bff;
+  border: none;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s;
+  margin-right: 10px;
 }
 #botao-anexar:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 #botao-anexar:active {
-    transform: scale(0.95);
+  transform: scale(0.95);
 }

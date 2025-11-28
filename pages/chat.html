@@ -1,65 +1,83 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MentalHelp - Chat</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/styles/Chat.css">
-</head>
-<body>
-    
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/styles/Chat.css" />
+  </head>
+  <body>
     <main class="chat-principal">
-        <div class="chat-container">
-            
-            <div class="chat-cabecalho">
-                <a href="interface.html" class="link-voltar" title="Voltar para Menu">
-                    <svg class="icone-voltar" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M15.41 16.59L10.83 12L15.41 7.41L14 6L8 12L14 18L15.41 16.59Z" fill="white"/>
-                    </svg>
-                </a>
+      <div class="chat-container">
+        <div class="chat-cabecalho">
+          <a href="/" class="link-voltar" title="Voltar para Menu">
+            <svg
+              class="icone-voltar"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M15.41 16.59L10.83 12L15.41 7.41L14 6L8 12L14 18L15.41 16.59Z"
+                fill="white"
+              />
+            </svg>
+          </a>
 
-                <img class="icone-perfil" id="avatar-destinatario" src="../assets/img/Avatar.png" alt="Ícone de Perfil">
-                
-                <span class="chat-titulo" id="nome-destinatario">Nome do Aluno</span>
-                
-                <div class="grupo-central-topo">
-                
-                    <img src="../assets/img/logo-mentalhelp.png" alt="Logo MentalHelp" class="logo-mentalhelp">
-                    
-                    <h1>MentalHelp</h1>
-                </div>
-            </div>
-            
-                <div class="area-mensagens" id="area-mensagens">
-            
-            </div>
-            
-            <div class="area-input">
-                <input type="text" id="input-mensagem" placeholder="Digite..." autocomplete="off">
-                <button id="botao-enviar">
-                    <svg viewBox="0 0 24 24" fill="white" width="24px" height="24px"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
-                </button>
-<input 
-        type="file" 
-        id="input-arquivo" 
-        accept="audio/*, image/*, video/*, .pdf, .docx, .txt" 
-        style="display: none;">
-        <button id="botao-anexar" type="button" title="Anexar arquivo">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640"><!--!Font Awesome Free v7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#ffffff" d="M342.6 73.4C330.1 60.9 309.8 60.9 297.3 73.4L169.3 201.4C156.8 213.9 156.8 234.2 169.3 246.7C181.8 259.2 202.1 259.2 214.6 246.7L288 173.3L288 384C288 401.7 302.3 416 320 416C337.7 416 352 401.7 352 384L352 173.3L425.4 246.7C437.9 259.2 458.2 259.2 470.7 246.7C483.2 234.2 483.2 213.9 470.7 201.4L342.7 73.4zM160 416C160 398.3 145.7 384 128 384C110.3 384 96 398.3 96 416L96 480C96 533 139 576 192 576L448 576C501 576 544 533 544 480L544 416C544 398.3 529.7 384 512 384C494.3 384 480 398.3 480 416L480 480C480 497.7 465.7 512 448 512L192 512C174.3 512 160 497.7 160 480L160 416z"/></svg>
-        </button>
-    </div>
-</div>
+          <img
+            class="icone-perfil"
+            id="avatar-destinatario"
+            src="/assets/img/Avatar.png"
+            alt="Ícone de Perfil"
+          />
 
+          <span class="chat-titulo" id="nome-destinatario">Nome do Aluno</span>
+
+          <div class="grupo-central-topo">
+            <img
+              src="/img/logo-mentalhelp.png"
+              alt="Logo MentalHelp"
+              class="logo-mentalhelp"
+            />
+
+            <h1>MentalHelp</h1>
+          </div>
+        </div>
+
+        <div class="area-mensagens" id="area-mensagens"></div>
+
+        <div class="area-input">
+          <input
+            type="text"
+            id="input-mensagem"
+            placeholder="Digite..."
+            autocomplete="off"
+          />
+          <button id="botao-enviar">
+            <svg viewBox="0 0 24 24" fill="white" width="24px" height="24px">
+              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+            </svg>
+          </button>
+          <input
+            type="file"
+            id="input-arquivo"
+            accept="audio/*, image/*, video/*, .pdf, .docx, .txt"
+            style="display: none"
+          />
+        </div>
+      </div>
     </main>
-    
-        <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script> 
-    
-    <script src="../assets/scripts/decode.js"></script>
-    
-    <script src="../assets/scripts/chat.js"></script> 
 
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+
+    <script src="/scripts/decode.js"></script>
+
+    <script src="/scripts/chat.js"></script>
+  </body>
 </html>

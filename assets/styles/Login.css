@@ -1,142 +1,130 @@
 * {
-    margin: none;
-    padding: 0;
-    box-sizing: border-box;
+  margin: none;
+  padding: 0;
+  box-sizing: border-box;
 }
 body {
-    display: grid;
-    grid-template-columns: 0px 1fr;
-    grid-template-rows: 70px 1fr;
-    grid-template-areas:
-        "aside header"
-        "aside conteudo"
-    ;
-    height: 100vh;
-    margin: 0;
+  display: grid;
+  grid-template-columns: 0px 1fr;
+  grid-template-rows: 70px 1fr;
+  grid-template-areas:
+    "aside header"
+    "aside conteudo";
+  height: 100vh;
+  margin: 0;
 }
 header {
-    grid-area: header;
-    background-color: rgb(44, 49, 47);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    font-size: 4rem;
-    color: rgb(228, 239, 248);
-    background-size: contain;
-    background-repeat: no-repeat;
-    height: 100%;
-    width: 100%;
+  grid-area: header;
+  background-color: rgb(44, 49, 47);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  font-size: 4rem;
+  color: rgb(228, 239, 248);
+  background-size: contain;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
 }
 aside {
-    grid-area: aside;
-    display: flex;
-    background-color: brown;
-    background-size: auto;
+  grid-area: aside;
+  display: flex;
+  background-color: brown;
+  background-size: auto;
 }
 main {
-    grid-area: conteudo;
-    background-image: url(../img/Fundo-Mental.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    color: rgb(228, 239, 248);
+  grid-area: conteudo;
+  background-image: url(../img/Fundo-Mental.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  color: rgb(228, 239, 248);
 }
-
-
 
 .voltar {
-    height: 65px;
-    width: 65px;
-    transition: 0.5s;
-    padding: 10%;
+  height: 65px;
+  width: 65px;
+  transition: 0.5s;
+  padding: 10%;
 }
 .voltar:hover {
-    padding: 0%;
+  padding: 0%;
 }
-
-
 
 .perfil-icone svg {
-    fill: #4b4b4b;
-    height: 100px;
-    width: 100px;
+  fill: #4b4b4b;
+  height: 100px;
+  width: 100px;
 }
-
-
 
 .conteudo-centralizado {
-    gap: 10px;
-    width: 350px;
-    background-color: #3b3b3b;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  gap: 10px;
+  width: 350px;
+  background-color: #3b3b3b;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
-    color: white;
+  color: white;
 }
-
-
 
 .input-group {
-    width: 100%;
-    /*margin: 10px 0;*/
+  width: 100%;
+  /*margin: 10px 0;*/
 }
 .input-field {
-    width: 100%;
-    padding: 15px;
-    margin: 5px 0px;
-    border-radius: 10px;
-    border: none;
-    background-color: #636363;
-    color: #fff;
-    box-sizing: border-box;
-    outline: none;
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0px;
+  border-radius: 10px;
+  border: none;
+  background-color: #636363;
+  color: #fff;
+  box-sizing: border-box;
+  outline: none;
 }
 .input-field::placeholder {
-    color: #ccc;
+  color: #ccc;
 }
-
-
 
 .button-field {
-    width: 100%;
-    padding: 15px;
-    margin: 5px 0px;
-    border-radius: 10px;
-    border: 1px solid #ccc;
-    background-color: #ffffff;
-    color: #4b4b4b;
-    box-sizing: border-box;
-    outline: none;
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  background-color: #ffffff;
+  color: #4b4b4b;
+  box-sizing: border-box;
+  outline: none;
 }
-
-
 
 .text-links {
-    margin-top: 20px;
+  margin-top: 20px;
 }
 .text-links a {
-    color: #9abaff;
-    text-decoration: none;
-    font-size: 14px;
-    display: block;
-    margin: 5px 0;
+  color: #9abaff;
+  text-decoration: none;
+  font-size: 14px;
+  display: block;
+  margin: 5px 0;
 }
-
-
 
 .Logar {
-    border-radius: 10px;
-    padding: 5px;
+  border-radius: 10px;
+  padding: 5px;
 }
 .Logar:hover {
-    background-color: #a0c9ff;
+  background-color: #a0c9ff;
+}
+.cadastro-btn:hover {
+  background-color: #7ba5ff;
 }

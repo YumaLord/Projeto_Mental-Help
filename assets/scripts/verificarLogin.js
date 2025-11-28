@@ -1,7 +1,7 @@
-function verificarLogin() {
-    if (!sessionStorage.getItem('userRole')) {
-        window.location.href = 'Login-interface.html';
-    }
-}
+// function verificarLogin() {
+//   if (!sessionStorage.getItem("userRole")) {
+//     window.location.href = "/Login-interface";
+//   }
+// }
 
-verificarLogin();
+// verificarLogin();
